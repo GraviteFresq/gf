@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gravité Fresq - Hill Scroll</title>
+<style>
+    /* Basic Page Setup to remove margins and ensure full screen */
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden; /* Prevents scrollbars */
+        background-color: #000;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* 1. The Container holds the stacked images */
+    .background-container {
+        position: relative;
+        width: 100vw;  /* 100% viewport width */
+        height: 100vh; /* 100% viewport height */
+    }
+
+    /* Shared styles to make images stack perfectly */
+    .bg-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures images fill the screen without stretching weirdly */
+    }
+
+    /* The background (Back Layer) */
+    .back-image {
+        z-index: 1;
+        /* Assuming image_6.png is the one without text */
+        background-image: url('image_6.png'); 
+        background-position: center;
+        background-size: cover;
+    }
+
+    /* The Text Foreground (Front Layer) */
+    .front-image {
+        z-index: 2;
+        /* Assuming image_5.png is the one WITH text */
+        background-image: url('image_5.png');
+        background-position: center;
+        background-size: cover;
+        
+        /* --- THE FIXES ARE HERE --- */
+
+        /* FIX 1: will-change
+           This is a performance hint. It tells the browser, "Hey, I plan 
+           to change the 'opacity' of this element soon. Please prepare 
+           for it." This forces the browser to create a separate graphics 
+           layer for this element, which makes animations start reliably. 
+        */
+        will-change: opacity;
+
+        /* FIX 2: animation-fill-mode: both
+           I've added 'both' to the end of your animation line.
+           This ensures that the element has the styles of the first 
+           keyframe (0% opacity) *before* it starts, and the last keyframe 
+           *after* it ends. Even though it's infinite, this helps set the 
+           initial state correctly on a refresh.
+        */
+        animation: natural-pulse 3s infinite alternate ease-in-out both;
+    }
+
+    /* 2. Define the start and end points of the opacity */
+    @keyframes natural-pulse {
+        0% {
+            opacity: 0.0; /* Starting low point */
+        }
+        100% {
+            opacity: 0.3; /* Ending high point */
+        }
+    }
+
+    /* --- 3. SCROLLING TEXT CONTAINER --- */
+    #scroller-stage {
+        position: absolute;
+        bottom: 50px; /* Lowered base position so the "hill" has room to go up */
+        left: 0;
+        width: 100%;
+        height: 200px; /* Taller container to allow words to float up */
+        z-index: 10;
+        display: flex;
+        align-items: flex-end; /* Align items to bottom so they can rise up */
+        justify-content: flex-start; /* Start from left */
+        
+        /* Mask for fade edges */
+        mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        pointer-events: none; /* Let clicks pass through */
+    }
+
+    #scroller-track {
+        display: flex;
+        align-items: baseline; /* Important for lifting effect */
+        will-change: transform;
+        padding-left: 50vw; /* Start roughly near middle */
+    }
+
+    .word {
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        /* Increased margin to reduce overlap collision */
+        margin: 0 20px; 
+        text-transform: lowercase;
+        white-space: nowrap;
+        
+        /* Anchor point: Bottom Center. 
+           This ensures they grow UPWARDS and SIDEWAYS from their feet. */
+        transform-origin: bottom center; 
+        will-change: transform;
+        
+        /* Default shadow to help separate layers */
+        text-shadow: 0 0 10px rgba(0,0,0,1);
+    }
+
+</style>
+</head>
+<body>
+
+    <div class="background-container">
+        <div class="bg-layer back-image"></div>
+        <div class="bg-layer front-image"></div>
+    </div>
+
+    <div id="scroller-stage">
+        <div id="scroller-track"></div>
+    </div>
+
+<script>
+    // --- CONFIGURATION ---
+    const textContent = "come again soon and take your little dog with you the air feels thin and the walls are listening closely for whispers of secret plans or recipes for disaster we need to move quietly through the fields where the cabbage grows wild and the scarecrows tell lies about the harvest the moon is full but the light is fake it's a stage prop designed to confuse the migrating birds i found a coin from a forgotten era that smelled of old electricity and regret i gave it to a pigeon that promised to deliver a message to the highest tower but it only flew sideways into a hedge and started singing opera very loudly the truth is we are all waiting for the signal from the ocean a single ripple that will confirm the existence of underwater libraries and librarians who only speak in riddles about lost socks and time travel the chairs in the kitchen are uncomfortable on purpose to discourage long conversations about anything important like the disappearance of the salt shaker or why the clouds taste of tapioca the solution is simple we must paint all the fences purple and pretend that it's a new kind of weather the neighbors will complain but their outrage will power our secret radio transmitter that broadcasts only the sound of clapping hands and small bells we will collect the dust from under the sofa and use it as currency to buy back the stolen sunshine it's a long shot but it's the only game in town and the rules are made up as we go along we must also remember to feed the guardian badger three marbles before midnight or the entire train schedule will turn to jelly i think the old lighthouse keeper knows more than he lets on about the missing forks and the way the shadows dance when nobody is watching he keeps a log book written entirely in mustard stains that predicts the next time the streetlights will begin to weep softly we should check the basement for a box of expired passports they might hold the key to a faster route through the turnips the secret code for the refrigerator is the square root of seven minus the age of a fictional detective but it only works on tuesdays when it rains upside down we have to be careful of the mailboxes they are undercover auditors for the society of unopened mail they are judging our lack of subscription to a magazine about underwater basket weaving i saw a squirrel wearing a tiny hat who was selling tickets to the end of the alphabet i bought one with a piece of worry stone and it told me to always trust the flavor of metallic paint we need more tin foil for the antennas the messages from the radioactive donkeys are coming in faint and they are very insistent about the proper way to tie a shoelace it is a matter of interdimensional security they say and the stakes are high a single mismatched knot could cause a regional blizzard of unwanted calendars so we must practice our bowlines and reef knots until our fingers ache with cosmic significance and our socks are dry";
+    
+    const scrollSpeed = 3.0; 
+    
+    // EFFECT SETTINGS
+    const maxScale = 3.0;        // Maximum Magnification
+    const influenceRadius = 300; // Wider radius for smoother hill
+    const maxRise = -120;         // How high the hill goes (Negative px moves UP)
+
+    // --- SETUP ---
+    const track = document.getElementById('scroller-track');
+    
+    // Create copies for looping
+    const wordsArray = textContent.split(' ');
+    // 4 Copies ensures we never run out of scroll space
+    const fullTextArray = [...wordsArray, ...wordsArray, ...wordsArray, ...wordsArray];
+
+    fullTextArray.forEach(wordText => {
+        const span = document.createElement('span');
+        span.classList.add('word');
+        span.innerText = wordText;
+        track.appendChild(span);
+    });
+
+    const words = document.querySelectorAll('.word');
+    let currentScroll = 0;
+    
+    function animate() {
+        currentScroll += scrollSpeed;
+        
+        // Loop Logic
+        // When we've scrolled past 25% of the total width, snap back
+        if (currentScroll >= track.scrollWidth / 4) {
+            currentScroll = 0;
+        }
+
+        track.style.transform = `translateX(-${currentScroll}px)`;
+
+        // --- THE HILL & FISHEYE CALCULATION ---
+        const center = window.innerWidth / 2;
+
+        words.forEach((word) => {
+            const box = word.getBoundingClientRect();
+            // Find center of word
+            const wordCenter = box.left + (box.width / 2);
+            const distance = Math.abs(center - wordCenter);
+
+            let scale = 1;
+            let translateY = 0;
+            let zIndex = 0;
+            let opacity = 0.6; // Dim words on the edges
+
+            if (distance < influenceRadius) {
+                // Calculate strength (0 to 1) based on distance
+                const ratio = 1 - (distance / influenceRadius);
+                
+                // Use Sine easing for a smooth rounded hill shape
+                const smoothRatio = Math.sin(ratio * (Math.PI / 2));
+                
+                // 1. Scale Calculation
+                scale = 1 + ((maxScale - 1) * smoothRatio);
+                
+                // 2. Vertical Rise Calculation (The Hill)
+                translateY = maxRise * smoothRatio;
+                
+                // 3. Z-Index Stack (Closer to center = higher layer)
+                zIndex = Math.floor(smoothRatio * 100);
+                
+                // 4. Brightness
+                opacity = 0.6 + (0.4 * smoothRatio); // Center words are fully opaque
+            }
+
+            // Apply styles
+            // Note: We use translateY to create the hill, and Scale for size.
+            word.style.transform = `translateY(${translateY}px) scale(${scale})`;
+            word.style.zIndex = zIndex;
+            word.style.opacity = opacity;
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+</script>
+</body>
+</html>
