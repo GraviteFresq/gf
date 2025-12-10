@@ -11,62 +11,39 @@
         padding: 0;
         height: 100%;
         width: 100%;
-        overflow: hidden; /* Prevents scrollbars */
+        overflow: hidden;
         background-color: #000;
         font-family: 'Courier New', Courier, monospace;
     }
 
-    /* 1. The Container holds the stacked images */
     .background-container {
         position: relative;
-        width: 100vw;  /* 100% viewport width */
-        height: 100vh; /* 100% viewport height */
+        width: 100vw; 
+        height: 100vh;
     }
 
-    /* Shared styles to make images stack perfectly */
     .bg-layer {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Ensures images fill the screen without stretching weirdly */
+        object-fit: cover;
     }
 
-    /* The background (Back Layer) */
     .back-image {
         z-index: 1;
-        /* Assuming image_6.png is the one without text */
         background-image: url('image_6.png'); 
         background-position: center;
         background-size: cover;
     }
 
-    /* The Text Foreground (Front Layer) */
     .front-image {
         z-index: 2;
-        /* Assuming image_5.png is the one WITH text */
         background-image: url('image_5.png');
         background-position: center;
         background-size: cover;
-        
-        /* --- THE FIXES ARE HERE --- */
-
-        /* FIX 1: will-change
-           This is a performance hint. It tells the browser, "Hey, I plan 
-           to change the 'opacity' of this element soon. Please prepare 
-           for it." This forces the browser to create a separate graphics 
-           layer for this element, which makes animations start reliably. 
-        */
         will-change: opacity;
-
-        /* FIX 2: animation-fill-mode: both
-           I've added 'both' to the end of your animation line.
-           This ensures that the element has the styles of the first 
-           keyframe (0% opacity) *before* it starts, and the last keyframe 
-           *after* it ends. Even though it's infinite, this helps set the 
-           initial state correctly on a refresh.
-        */
         animation: natural-pulse 3s infinite alternate ease-in-out both;
     }
 
@@ -78,6 +55,107 @@
         100% {
             opacity: 0.3; /* Ending high point */
         }
+    }
+
+    /* --- 1. NEW TOP BAR (10%) --- */
+    #top-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 10vh; /* 10% of viewport height */
+        z-index: 20; /* High z-index for future interaction */
+        /* background: rgba(255, 0, 0, 0.1);  Uncomment to visualize the zone */
+    }
+
+    /* --- 3. THE CAROUSEL (NEW) --- */
+    #singles-carousel {
+        position: absolute;
+        top: 10vh; /* Starts below the top bar */
+        left: 0;
+        width: 100%;
+        /* Occupy the top space, leaving 350px at bottom for the text hill */
+        height: 60vh; /* 100% - 10% (top) - 20% (bottom) = 70% */
+        /* height: calc(100vh - 300px); */ 
+        
+        /* Layering: 
+           Background is 1-2. 
+           Carousel is 5. 
+           Text Hill (small words) is 0-5.
+           Text Hill (Big words) is 100.
+           Result: Big text will fly OVER the carousel images. Very cool effect.
+        */
+        z-index: 5; 
+        
+        /* Flexbox handles the horizontal layout */
+        display: flex;
+        align-items: center; /* Vertically center the albums */
+        
+        /* NATIVE SCROLL & SWIPE LOGIC */
+        overflow-x: auto; /* Allow horizontal scroll */
+        scroll-snap-type: x mandatory; /* Force images to snap to center */
+        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+        
+        /* Hide Scrollbar */
+        scrollbar-width: none; /* Firefox */
+    }
+    #singles-carousel::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+
+    .carousel-item {
+        /* Prevent shrinking */
+        flex: 0 0 auto;
+        
+        /* Center alignment snap point */
+        scroll-snap-align: center;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        /* Ensure padding is inside the width calculation so they don't overlap */
+        box-sizing: border-box; 
+        padding: 0 60px; /* Adds breathing room between images */
+
+        /* 1. MOBILE DEFAULT: 1 Item per screen */
+        width: 100vw;
+        height: 100%;
+    }
+
+    /* 2. TABLET VIEW (New): 2 Items per screen */
+    @media (min-width: 800px) {
+        .carousel-item {
+            width: 50vw; /* 50% width = 2 items */
+        }
+    }
+
+    /* 3. DESKTOP VIEW: 3 Items per screen */
+    @media (min-width: 1200px) {
+        .carousel-item {
+            width: 33.33vw; /* 33% width = 3 items */
+        }
+    }
+
+    /* The Album Cover Image Styles */
+    .album-art {
+        /* Keep ratio vertical (Portrait) */
+        width: auto;
+        height: 50%; /* Adjusts relative to container height */
+        aspect-ratio: 3 / 4; /* Standard vertical poster ratio */
+        max-width: 75%;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        transition: transform 0.3s ease, filter 0.3s ease;
+        object-fit: cover;
+        cursor: pointer;
+        
+        /* Slight border to pop against space background */
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .album-art:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+        border-color: rgba(255,255,255,0.8);
     }
 
     /* --- 3. SCROLLING TEXT CONTAINER --- */
@@ -123,6 +201,8 @@
         text-shadow: 0 0 10px rgba(0,0,0,1);
     }
 
+
+
 </style>
 </head>
 <body>
@@ -130,6 +210,30 @@
     <div class="background-container">
         <div class="bg-layer back-image"></div>
         <div class="bg-layer front-image"></div>
+    </div>
+
+    <div id="top-bar"></div>
+
+    <div id="singles-carousel">
+        
+        <div class="carousel-item">
+            <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse" target="_blank">
+                <img src="Festive Season My Arse - Promocard.png" alt="Festive Season My Arse" class="album-art">
+            </a>
+        </div>
+        <!--
+        <div class="carousel-item">
+            <a href="#" target="_blank">
+                <img src="Single 2 - Promocard.png" alt="Single 2" class="album-art">
+            </a>
+        </div>
+
+        <div class="carousel-item">
+            <a href="#" target="_blank">
+                <img src="Single 3 - Promocard.png" alt="Single 3" class="album-art">
+            </a>
+        </div>
+        -->
     </div>
 
     <div id="scroller-stage">
