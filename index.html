@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gravité Fresq - Transparent</title>
+
 <style>
     /* --- RESET & BASIC SETUP --- */
     body, html {
@@ -11,7 +12,7 @@
         padding: 0;
         height: 100%;
         width: 100%;
-        overflow: hidden; /* No Body Scroll */
+        overflow-x: hidden; /* Allow vertical scroll instead of blocking it */
         background-color: #000;
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
@@ -98,7 +99,7 @@
         width: 100%;
         height: auto;
         max-height: 100%;
-        object-fit: contain; /* Default desktop behavior: fit the box */
+        object-fit: contain;
         border: 1px solid rgba(255,255,255,0.2);
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         cursor: pointer;
@@ -113,9 +114,7 @@
         flex: 1;
         overflow-y: auto;
         
-        /* 50% Transparent Background */
         background-color: rgba(26, 26, 26, 0.5);
-        /* Blur effect behind the text for readability (optional) */
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
 
@@ -123,8 +122,7 @@
         padding: 40px;
         border-left: 4px solid #00d4ff;
         
-        /* SLIGHTLY SMALLER TEXT SIZE */
-        font-size: 0.95rem; 
+        font-size: 0.95rem;
 
         scrollbar-width: thin;
         scrollbar-color: #00d4ff rgba(26, 26, 26, 0.5);
@@ -132,9 +130,20 @@
 
     /* --- MOBILE RESPONSIVENESS (< 900px) --- */
     @media (max-width: 900px) {
+
+        /* Allow layout to flow naturally */
+        #main-stage {
+            position: relative;
+            top: 0;
+            height: auto;
+            padding-top: 10px;
+            padding-bottom: 20px;
+        }
+
         .content-wrapper {
             flex-direction: column;
             width: 95%;
+            height: auto;
         }
 
         .image-col {
@@ -144,22 +153,51 @@
         }
 
         .promo-card-img {
-            /* FORCE SQUARE ON MOBILE */
-            aspect-ratio: 1 / 1;
-            object-fit: cover; /* Crop image to fill the square */
-            
-            width: 50%; /* Make it smaller on screen (50% of width) */
-            margin: 0 auto; /* Center it */
+            width: 80%;
+            max-width: 320px;
+            aspect-ratio: auto;
+            object-fit: contain;
+            margin: 0 auto;
             display: block;
         }
 
         .text-col {
             width: 100%;
-            padding: 20px;
+            padding: 16px;
             border-left: none;
             border-top: 4px solid #00d4ff;
-            /* Ensure text is readable on mobile */
-            font-size: 0.9rem; 
+
+            /* remove internal scroll */
+            overflow: visible;
+            max-height: none;
+
+            /* More contrast for readability */
+            background-color: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(3px);
+
+            font-size: 0.9rem;
+        }
+
+        h1 { 
+            font-size: 1.6em !important; 
+        }
+        h2 { 
+            font-size: 1.2em !important; 
+        }
+
+        .text-col p,
+        .text-col h1,
+        .text-col h2 {
+            margin-bottom: 20px !important;
+        }
+
+        #scroller-container {
+            height: 70px;
+            position: relative;
+        }
+
+        .scrolling-text {
+            font-size: 14px;
         }
     }
 
@@ -200,6 +238,7 @@
 
 </style>
 </head>
+
 <body>
 
     <div class="background-container">
@@ -279,5 +318,6 @@
     track.appendChild(span1);
     track.appendChild(span2);
 </script>
+
 </body>
 </html>
