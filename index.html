@@ -3,43 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gravité Fresq</title>
+<title>Gravité Fresq - Transparent</title>
 <style>
-    /* Basic Page Setup to remove margins and ensure full screen */
+    /* --- RESET & BASIC SETUP --- */
     body, html {
         margin: 0;
         padding: 0;
         height: 100%;
         width: 100%;
-        overflow: hidden;
+        overflow: hidden; /* No Body Scroll */
         background-color: #000;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
 
+    /* --- BACKGROUND LAYERS --- */
     .background-container {
-        position: relative;
-        width: 100vw; 
-        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
     }
 
     .bg-layer {
         position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
     .back-image {
-        z-index: 1;
         background-image: url('image_6.png'); 
         background-position: center;
         background-size: cover;
     }
 
     .front-image {
-        z-index: 2;
         background-image: url('image_5.png');
         background-position: center;
         background-size: cover;
@@ -47,161 +47,156 @@
         animation: natural-pulse 3s infinite alternate ease-in-out both;
     }
 
-    /* 2. Define the start and end points of the opacity */
     @keyframes natural-pulse {
-        0% {
-            opacity: 0.0; /* Starting low point */
-        }
-        100% {
-            opacity: 0.3; /* Ending high point */
-        }
+        0% { opacity: 0.0; }
+        100% { opacity: 0.3; }
     }
 
-    /* --- 1. NEW TOP BAR (10%) --- */
+    /* --- ZONES --- */
+
+    /* 1. TOP BAR (10%) */
     #top-bar {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-        height: 10vh; /* 10% of viewport height */
-        z-index: 20; /* High z-index for future interaction */
-        /* background: rgba(255, 0, 0, 0.1);  Uncomment to visualize the zone */
+        height: 10vh;
+        z-index: 10;
     }
 
-    /* --- 3. THE CAROUSEL (NEW) --- */
-    #singles-carousel {
+    /* 2. MAIN STAGE (70%) */
+    #main-stage {
         position: absolute;
-        top: 10vh; /* Starts below the top bar */
+        top: 10vh;
         left: 0;
         width: 100%;
-        /* Occupy the top space, leaving 350px at bottom for the text hill */
-        height: 60vh; /* 100% - 10% (top) - 20% (bottom) = 70% */
-        /* height: calc(100vh - 300px); */ 
-        
-        /* Layering: 
-           Background is 1-2. 
-           Carousel is 5. 
-           Text Hill (small words) is 0-5.
-           Text Hill (Big words) is 100.
-           Result: Big text will fly OVER the carousel images. Very cool effect.
-        */
-        z-index: 5; 
-        
-        /* Flexbox handles the horizontal layout */
-        display: flex;
-        align-items: center; /* Vertically center the albums */
-        
-        /* NATIVE SCROLL & SWIPE LOGIC */
-        overflow-x: auto; /* Allow horizontal scroll */
-        scroll-snap-type: x mandatory; /* Force images to snap to center */
-        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
-        
-        /* Hide Scrollbar */
-        scrollbar-width: none; /* Firefox */
-    }
-    #singles-carousel::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
-
-    .carousel-item {
-        /* Prevent shrinking */
-        flex: 0 0 auto;
-        
-        /* Center alignment snap point */
-        scroll-snap-align: center;
+        height: 70vh;
+        z-index: 10;
         
         display: flex;
         justify-content: center;
         align-items: center;
-        
-        /* Ensure padding is inside the width calculation so they don't overlap */
-        box-sizing: border-box; 
-        padding: 0 60px; /* Adds breathing room between images */
+    }
 
-        /* 1. MOBILE DEFAULT: 1 Item per screen */
-        width: 100vw;
+    .content-wrapper {
+        display: flex;
+        width: 90%;
         height: 100%;
+        max-width: 1200px;
+        gap: 20px;
     }
 
-    /* 2. TABLET VIEW (New): 2 Items per screen */
-    @media (min-width: 800px) {
-        .carousel-item {
-            width: 50vw; /* 50% width = 2 items */
-        }
+    /* Left Column: Image (30%) */
+    .image-col {
+        flex: 0 0 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    /* 3. DESKTOP VIEW: 3 Items per screen */
-    @media (min-width: 1200px) {
-        .carousel-item {
-            width: 33.33vw; /* 33% width = 3 items */
-        }
-    }
-
-    /* The Album Cover Image Styles */
-    .album-art {
-        /* Keep ratio vertical (Portrait) */
-        width: auto;
-        height: 50%; /* Adjusts relative to container height */
-        aspect-ratio: 3 / 4; /* Standard vertical poster ratio */
-        max-width: 75%;
-        border-radius: 12px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-        transition: transform 0.3s ease, filter 0.3s ease;
-        object-fit: cover;
-        cursor: pointer;
-        
-        /* Slight border to pop against space background */
+    .promo-card-img {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: contain; /* Default desktop behavior: fit the box */
         border: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .promo-card-img:hover {
+        transform: scale(1.02);
     }
 
-    .album-art:hover {
-        transform: scale(1.05);
-        filter: brightness(1.1);
-        border-color: rgba(255,255,255,0.8);
+    /* Right Column: Text (Rest) */
+    .text-col {
+        flex: 1;
+        overflow-y: auto;
+        
+        /* 50% Transparent Background */
+        background-color: rgba(26, 26, 26, 0.5);
+        /* Blur effect behind the text for readability (optional) */
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+
+        color: #e0e0e0;
+        padding: 40px;
+        border-left: 4px solid #00d4ff;
+        
+        /* SLIGHTLY SMALLER TEXT SIZE */
+        font-size: 0.95rem; 
+
+        scrollbar-width: thin;
+        scrollbar-color: #00d4ff rgba(26, 26, 26, 0.5);
     }
 
-    /* --- 3. SCROLLING TEXT CONTAINER --- */
-    #scroller-stage {
+    /* --- MOBILE RESPONSIVENESS (< 900px) --- */
+    @media (max-width: 900px) {
+        .content-wrapper {
+            flex-direction: column;
+            width: 95%;
+        }
+
+        .image-col {
+            flex: 0 0 auto;
+            width: 100%;
+            padding-bottom: 20px;
+        }
+
+        .promo-card-img {
+            /* FORCE SQUARE ON MOBILE */
+            aspect-ratio: 1 / 1;
+            object-fit: cover; /* Crop image to fill the square */
+            
+            width: 50%; /* Make it smaller on screen (50% of width) */
+            margin: 0 auto; /* Center it */
+            display: block;
+        }
+
+        .text-col {
+            width: 100%;
+            padding: 20px;
+            border-left: none;
+            border-top: 4px solid #00d4ff;
+            /* Ensure text is readable on mobile */
+            font-size: 0.9rem; 
+        }
+    }
+
+    /* 3. BOTTOM SCROLLER (20%) */
+    #scroller-container {
         position: absolute;
-        bottom: 50px; /* Lowered base position so the "hill" has room to go up */
+        bottom: 0;
         left: 0;
         width: 100%;
-        height: 200px; /* Taller container to allow words to float up */
+        height: 20vh;
         z-index: 10;
+        overflow: hidden;
         display: flex;
-        align-items: flex-end; /* Align items to bottom so they can rise up */
-        justify-content: flex-start; /* Start from left */
-        
-        /* Mask for fade edges */
-        mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-        pointer-events: none; /* Let clicks pass through */
+        align-items: center;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
     }
 
     #scroller-track {
         display: flex;
-        align-items: baseline; /* Important for lifting effect */
-        will-change: transform;
-        padding-left: 50vw; /* Start roughly near middle */
-    }
-
-    .word {
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        /* Increased margin to reduce overlap collision */
-        margin: 0 20px; 
-        text-transform: lowercase;
         white-space: nowrap;
-        
-        /* Anchor point: Bottom Center. 
-           This ensures they grow UPWARDS and SIDEWAYS from their feet. */
-        transform-origin: bottom center; 
         will-change: transform;
-        
-        /* Default shadow to help separate layers */
-        text-shadow: 0 0 10px rgba(0,0,0,1);
+        animation: simple-scroll 60s linear infinite;
     }
 
+    .scrolling-text {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: lowercase;
+        padding-right: 50px;
+        font-family: 'Courier New', Courier, monospace;
+    }
 
+    @keyframes simple-scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
 
 </style>
 </head>
@@ -214,118 +209,75 @@
 
     <div id="top-bar"></div>
 
-    <div id="singles-carousel">
-        
-        <div class="carousel-item">
-            <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse" target="_blank">
-                <img src="Festive Season My Arse - Promocard.png" alt="Festive Season My Arse" class="album-art">
-            </a>
-        </div>
-        <!--
-        <div class="carousel-item">
-            <a href="#" target="_blank">
-                <img src="Single 2 - Promocard.png" alt="Single 2" class="album-art">
-            </a>
-        </div>
+    <div id="main-stage">
+        <div class="content-wrapper">
+            
+            <div class="image-col">
+                <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse">
+                <img src="Festive Season My Arse - Promocard.png" alt="Festive Season My Arse" class="promo-card-img">
+                </a>
+            </div>
 
-        <div class="carousel-item">
-            <a href="#" target="_blank">
-                <img src="Single 3 - Promocard.png" alt="Single 3" class="album-art">
-            </a>
+            <div class="text-col">
+                                <div style="text-align: center; margin-bottom: 50px; padding: 20px; background-color: rgba(0,0,0,0.8); border: 1px dashed #555;">
+                    <p style="margin: 0; font-size: 1.1em; letter-spacing: 1px; text-transform: uppercase; color: #ff0055; font-weight: bold;">
+                        ⬇️ <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse">
+                        Here to PRE-SAVE 
+                        </a>⬇️
+                    </p>
+                </div>
+
+                <h1 style="color: #ffffff; font-size: 2.2em; margin-top: 0; margin-bottom: 20px; font-weight: 700; letter-spacing: -0.5px;">The Sound of a Rain-Soaked Tuesday.</h1>
+
+                <p style="margin-bottom: 20px; font-size: 1.05em; line-height: 1.6;">
+                    <strong>Gravité Fresq</strong> is a satirical post-punk project born from the gloom of Ireland. We exist at the intersection of 80s synthpop nostalgia and the crushing absurdity of modern corporate life.
+                </p>
+
+                <p style="margin-bottom: 20px; line-height: 1.6;">
+                    We don’t just write songs; we paint <strong>sonic frescoes</strong>—layered, aggressive, and absurd musical landscapes designed for the cynics, the quiet quitters, and anyone who has ever stared into a cold purse and felt the void staring back.
+                </p>
+
+                <h2 style="color: #ffffff; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">The Sound</h2>
+                <p style="margin-bottom: 20px; line-height: 1.6;">
+                    Our music fuses the mechanical precision of new wave with the raw, emotional exhaustion of post-punk. Think driving basslines, icy synthesizers, and melodies that stick in your head like a bad memo from HR. It is the sound of serious art colliding with dark, biting humor.
+                </p>
+
+                <h2 style="color: #ffffff; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">The Mission</h2>
+                <p style="margin-bottom: 30px; line-height: 1.6;">
+                    We are here to dismantle the "Festive Season" and reclaim reality. Our lyrics tackle everything from the performative joy of office parties (<em>"Festive Season My Arse"</em>) to the surreal debates that only happen in Irish pubs (<em>"The Great Nipple Debate"</em>).
+                </p>
+
+                <p style="font-size: 1.1em; font-weight: bold; margin-bottom: 40px; line-height: 1.6;">
+                    Gravité Fresq is the antidote to forced cheer. <span style="color: #00d4ff;">Join the rebellion.</span>
+                </p>
+
+                <div style="text-align: center; margin-top: 50px; padding: 20px; background-color: rgba(0,0,0,0.8); border: 1px dashed #555;">
+                    <p style="margin: 0; font-size: 1.1em; letter-spacing: 1px; text-transform: uppercase; color: #ff0055; font-weight: bold;">
+                        ⬇️ <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse">
+                        Here to PRE-SAVE 
+                        </a>⬇️
+                    </p>
+                </div>
+            </div>
         </div>
-        -->
     </div>
 
-    <div id="scroller-stage">
+    <div id="scroller-container">
         <div id="scroller-track"></div>
     </div>
 
 <script>
-    // --- CONFIGURATION ---
-    const textContent = "come again soon and take your little dog with you the air feels thin and the walls are listening closely for whispers of secret plans or recipes for disaster we need to move quietly through the fields where the cabbage grows wild and the scarecrows tell lies about the harvest the moon is full but the light is fake it's a stage prop designed to confuse the migrating birds i found a coin from a forgotten era that smelled of old electricity and regret i gave it to a pigeon that promised to deliver a message to the highest tower but it only flew sideways into a hedge and started singing opera very loudly the truth is we are all waiting for the signal from the ocean a single ripple that will confirm the existence of underwater libraries and librarians who only speak in riddles about lost socks and time travel the chairs in the kitchen are uncomfortable on purpose to discourage long conversations about anything important like the disappearance of the salt shaker or why the clouds taste of tapioca the solution is simple we must paint all the fences purple and pretend that it's a new kind of weather the neighbors will complain but their outrage will power our secret radio transmitter that broadcasts only the sound of clapping hands and small bells we will collect the dust from under the sofa and use it as currency to buy back the stolen sunshine it's a long shot but it's the only game in town and the rules are made up as we go along we must also remember to feed the guardian badger three marbles before midnight or the entire train schedule will turn to jelly i think the old lighthouse keeper knows more than he lets on about the missing forks and the way the shadows dance when nobody is watching he keeps a log book written entirely in mustard stains that predicts the next time the streetlights will begin to weep softly we should check the basement for a box of expired passports they might hold the key to a faster route through the turnips the secret code for the refrigerator is the square root of seven minus the age of a fictional detective but it only works on tuesdays when it rains upside down we have to be careful of the mailboxes they are undercover auditors for the society of unopened mail they are judging our lack of subscription to a magazine about underwater basket weaving i saw a squirrel wearing a tiny hat who was selling tickets to the end of the alphabet i bought one with a piece of worry stone and it told me to always trust the flavor of metallic paint we need more tin foil for the antennas the messages from the radioactive donkeys are coming in faint and they are very insistent about the proper way to tie a shoelace it is a matter of interdimensional security they say and the stakes are high a single mismatched knot could cause a regional blizzard of unwanted calendars so we must practice our bowlines and reef knots until our fingers ache with cosmic significance and our socks are dry";
-    
-    const scrollSpeed = 3.0; 
-    
-    // EFFECT SETTINGS
-    const maxScale = 3.0;        // Maximum Magnification
-    const influenceRadius = 300; // Wider radius for smoother hill
-    const maxRise = -120;         // How high the hill goes (Negative px moves UP)
+    const rawText = "come again soon and take your little dog with you the air feels thin and the walls are listening closely for whispers of secret plans or recipes for disaster we need to move quietly through the fields where the cabbage grows wild and the scarecrows tell lies about the harvest the moon is full but the light is fake it's a stage prop designed to confuse the migrating birds i found a coin from a forgotten era that smelled of old electricity and regret i gave it to a pigeon that promised to deliver a message to the highest tower but it only flew sideways into a hedge and started singing opera very loudly the truth is we are all waiting for the signal from the ocean a single ripple that will confirm the existence of underwater libraries and librarians who only speak in riddles about lost socks and time travel";
 
-    // --- SETUP ---
     const track = document.getElementById('scroller-track');
-    
-    // Create copies for looping
-    const wordsArray = textContent.split(' ');
-    // 4 Copies ensures we never run out of scroll space
-    const fullTextArray = [...wordsArray, ...wordsArray, ...wordsArray, ...wordsArray];
-
-    fullTextArray.forEach(wordText => {
-        const span = document.createElement('span');
-        span.classList.add('word');
-        span.innerText = wordText;
-        track.appendChild(span);
-    });
-
-    const words = document.querySelectorAll('.word');
-    let currentScroll = 0;
-    
-    function animate() {
-        currentScroll += scrollSpeed;
-        
-        // Loop Logic
-        // When we've scrolled past 25% of the total width, snap back
-        if (currentScroll >= track.scrollWidth / 4) {
-            currentScroll = 0;
-        }
-
-        track.style.transform = `translateX(-${currentScroll}px)`;
-
-        // --- THE HILL & FISHEYE CALCULATION ---
-        const center = window.innerWidth / 2;
-
-        words.forEach((word) => {
-            const box = word.getBoundingClientRect();
-            // Find center of word
-            const wordCenter = box.left + (box.width / 2);
-            const distance = Math.abs(center - wordCenter);
-
-            let scale = 1;
-            let translateY = 0;
-            let zIndex = 0;
-            let opacity = 0.6; // Dim words on the edges
-
-            if (distance < influenceRadius) {
-                // Calculate strength (0 to 1) based on distance
-                const ratio = 1 - (distance / influenceRadius);
-                
-                // Use Sine easing for a smooth rounded hill shape
-                const smoothRatio = Math.sin(ratio * (Math.PI / 2));
-                
-                // 1. Scale Calculation
-                scale = 1 + ((maxScale - 1) * smoothRatio);
-                
-                // 2. Vertical Rise Calculation (The Hill)
-                translateY = maxRise * smoothRatio;
-                
-                // 3. Z-Index Stack (Closer to center = higher layer)
-                zIndex = Math.floor(smoothRatio * 100);
-                
-                // 4. Brightness
-                opacity = 0.6 + (0.4 * smoothRatio); // Center words are fully opaque
-            }
-
-            // Apply styles
-            // Note: We use translateY to create the hill, and Scale for size.
-            word.style.transform = `translateY(${translateY}px) scale(${scale})`;
-            word.style.zIndex = zIndex;
-            word.style.opacity = opacity;
-        });
-
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-
+    const span1 = document.createElement('span');
+    span1.className = 'scrolling-text';
+    span1.innerText = rawText;
+    const span2 = document.createElement('span');
+    span2.className = 'scrolling-text';
+    span2.innerText = rawText;
+    track.appendChild(span1);
+    track.appendChild(span2);
 </script>
 </body>
 </html>
