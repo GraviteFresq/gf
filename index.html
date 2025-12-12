@@ -1,242 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gravité Fresq - Transparent</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravité Fresq - Transparent</title>
 
-<style>
-    /* --- RESET & BASIC SETUP --- */
-    body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-        overflow-x: hidden; /* Allow vertical scroll instead of blocking it */
-        background-color: #000;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    }
+    <style>
+        /* --- RESET & BASIC SETUP --- */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            background-color: #000;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
 
-    /* --- BACKGROUND LAYERS --- */
-    .background-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
-
-    .bg-layer {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .back-image {
-        background-image: url('image_6.png'); 
-        background-position: center;
-        background-size: cover;
-    }
-
-    .front-image {
-        background-image: url('image_5.png');
-        background-position: center;
-        background-size: cover;
-        will-change: opacity;
-        animation: natural-pulse 3s infinite alternate ease-in-out both;
-    }
-
-    @keyframes natural-pulse {
-        0% { opacity: 0.0; }
-        100% { opacity: 0.3; }
-    }
-
-    /* --- ZONES --- */
-
-    /* 1. TOP BAR (10%) */
-    #top-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 10vh;
-        z-index: 10;
-    }
-
-    /* 2. MAIN STAGE (70%) */
-    #main-stage {
-        position: absolute;
-        top: 10vh;
-        left: 0;
-        width: 100%;
-        height: 70vh;
-        z-index: 10;
-        
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .content-wrapper {
-        display: flex;
-        width: 90%;
-        height: 100%;
-        max-width: 1200px;
-        gap: 20px;
-    }
-
-    /* Left Column: Image (30%) */
-    .image-col {
-        flex: 0 0 30%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .promo-card-img {
-        width: 100%;
-        height: auto;
-        max-height: 100%;
-        object-fit: contain;
-        border: 1px solid rgba(255,255,255,0.2);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
-    .promo-card-img:hover {
-        transform: scale(1.02);
-    }
-
-    /* Right Column: Text (Rest) */
-    .text-col {
-        flex: 1;
-        overflow-y: auto;
-        
-        background-color: rgba(26, 26, 26, 0.5);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-
-        color: #e0e0e0;
-        padding: 40px;
-        border-left: 4px solid #00d4ff;
-        
-        font-size: 0.95rem;
-
-        scrollbar-width: thin;
-        scrollbar-color: #00d4ff rgba(26, 26, 26, 0.5);
-    }
-
-    /* --- MOBILE RESPONSIVENESS (< 900px) --- */
-    @media (max-width: 900px) {
-
-        /* Allow layout to flow naturally */
-        #main-stage {
-            position: relative;
+        /* --- BACKGROUND LAYERS --- */
+        .background-container {
+            position: fixed;
             top: 0;
-            height: auto;
-            padding-top: 10px;
-            padding-bottom: 20px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .bg-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .back-image {
+            background-image: url('image_6.png');
+            background-position: center;
+            background-size: cover;
+        }
+
+        .front-image {
+            background-image: url('image_5.png');
+            background-position: center;
+            background-size: cover;
+            will-change: opacity;
+            animation: natural-pulse 3s infinite alternate ease-in-out both;
+        }
+
+        @keyframes natural-pulse {
+            0% { opacity: 0.0; }
+            100% { opacity: 0.3; }
+        }
+
+        /* --- ZONES --- */
+
+        /* 1. TOP BAR (10%) */
+        #top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10vh;
+            z-index: 10;
+        }
+
+        /* 2. MAIN STAGE (70%) */
+        #main-stage {
+            position: absolute;
+            top: 10vh;
+            left: 0;
+            width: 100%;
+            height: 70vh;
+            z-index: 10;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .content-wrapper {
-            flex-direction: column;
-            width: 95%;
-            height: auto;
+            display: flex;
+            width: 90%;
+            height: 100%;
+            max-width: 1200px;
+            gap: 20px;
         }
 
+        /* Left Column: Image (30%) */
         .image-col {
-            flex: 0 0 auto;
-            width: 100%;
-            padding-bottom: 20px;
+            flex: 0 0 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .promo-card-img {
-            width: 80%;
-            max-width: 320px;
-            aspect-ratio: auto;
-            object-fit: contain;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .text-col {
             width: 100%;
-            padding: 16px;
-            border-left: none;
-            border-top: 4px solid #00d4ff;
-
-            /* remove internal scroll */
-            overflow: visible;
-            max-height: none;
-
-            /* More contrast for readability */
-            background-color: rgba(26, 26, 26, 0.7);
-            backdrop-filter: blur(3px);
-
-            font-size: 0.9rem;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        h1 { 
-            font-size: 1.6em !important; 
-        }
-        h2 { 
-            font-size: 1.2em !important; 
+        .promo-card-img:hover {
+            transform: scale(1.02);
         }
 
-        .text-col p,
-        .text-col h1,
-        .text-col h2 {
-            margin-bottom: 20px !important;
+        /* Right Column: Text (Rest) */
+        .text-col {
+            flex: 1;
+            overflow-y: auto;
+
+            background-color: rgba(26, 26, 26, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+
+            color: #e0e0e0;
+            padding: 40px;
+            border-left: 4px solid #00d4ff;
+
+            font-size: 0.95rem;
+
+            scrollbar-width: thin;
+            scrollbar-color: #00d4ff rgba(26, 26, 26, 0.5);
         }
 
-        #scroller-container {
-            height: 70px;
-            position: relative;
+        /* --- SOCIAL BOTTOM BAR --- */
+        #bottom-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            
+            /* Height increased slightly to breathe */
+            height: 100px; 
+            z-index: 100;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* Default Desktop Spacing */
+            gap: 40px;
+
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
         }
 
-        .scrolling-text {
-            font-size: 14px;
+        .social-link {
+            display: block;
+            /* Default Desktop Size */
+            width: 50px; 
+            height: 50px;
+            transition: transform 0.2s ease, opacity 0.2s;
+            opacity: 0.7;
         }
-    }
 
-    /* 3. BOTTOM SCROLLER (20%) */
-    #scroller-container {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 20vh;
-        z-index: 10;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-    }
+        .social-link svg {
+            width: 100%;
+            height: 100%;
+            fill: #ffffff;
+            transition: fill 0.2s ease;
+        }
 
-    #scroller-track {
-        display: flex;
-        white-space: nowrap;
-        will-change: transform;
-        animation: simple-scroll 60s linear infinite;
-    }
+        .social-link:hover {
+            opacity: 1;
+            transform: translateY(-5px);
+        }
 
-    .scrolling-text {
-        color: white;
-        font-size: 24px;
-        font-weight: bold;
-        text-transform: lowercase;
-        padding-right: 50px;
-        font-family: 'Courier New', Courier, monospace;
-    }
+        .social-link:hover svg {
+            fill: #00d4ff;
+            filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6));
+        }
 
-    @keyframes simple-scroll {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
 
-</style>
+        /* --- MOBILE RESPONSIVENESS (< 900px) --- */
+        @media (max-width: 900px) {
+
+            #main-stage {
+                position: relative;
+                top: 0;
+                height: auto;
+                padding-top: 10px;
+                padding-bottom: 20px;
+            }
+
+            .content-wrapper {
+                flex-direction: column;
+                width: 95%;
+                height: auto;
+            }
+
+            .image-col {
+                flex: 0 0 auto;
+                width: 100%;
+                padding-bottom: 20px;
+            }
+
+            .promo-card-img {
+                width: 80%;
+                max-width: 320px;
+                margin: 0 auto;
+                display: block;
+            }
+
+            .text-col {
+                width: 100%;
+                padding: 16px;
+                border-left: none;
+                border-top: 4px solid #00d4ff;
+                overflow: visible;
+                max-height: none;
+                background-color: rgba(26, 26, 26, 0.7);
+                backdrop-filter: blur(3px);
+                font-size: 0.9rem;
+                padding-bottom: 120px !important;
+            }
+
+            h1 { font-size: 1.6em !important; }
+            h2 { font-size: 1.2em !important; }
+
+            .text-col p,
+            .text-col h1,
+            .text-col h2 {
+                margin-bottom: 20px !important;
+            }
+
+            /* --- MOBILE FOOTER ADJUSTMENTS --- */
+            #bottom-container {
+                height: 80px; /* Slightly smaller footer area */
+                gap: 20px;    /* Much tighter gap so 5 icons fit */
+            }
+
+            .social-link {
+                width: 36px;  /* Smaller icons for mobile */
+                height: 36px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -250,74 +256,94 @@
 
     <div id="main-stage">
         <div class="content-wrapper">
-            
+
             <div class="image-col">
-                <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse">
-                <img src="Festive Season My Arse - Promocard.png" alt="Festive Season My Arse" class="promo-card-img">
+                <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse" target="_blank">
+                    <img src="Festive Season My Arse - Promocard.png" alt="Festive Season My Arse"
+                        class="promo-card-img">
                 </a>
             </div>
 
             <div class="text-col">
-                <p style="font-size: 1.1em; font-weight: bold; margin-bottom: 40px; line-height: 1.6;">
-                    <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse">
-                        <span style="color: #00d4ff;">Click on Promo Card to PRE-SAVE</span>
-                        </a>
-                </p>
 
-                <h1 style="color: #ffffff; font-size: 2.2em; margin-top: 0; margin-bottom: 20px; font-weight: 700; letter-spacing: -0.5px;">The Sound of a Rain-Soaked Tuesday</h1>
+                <h1 style="color: #ffffff; font-size: 2.2em; margin-top: 0; margin-bottom: 20px; font-weight: 700; letter-spacing: -0.5px;">
+                    The Sound of a Rain-Soaked Tuesday</h1>
 
                 <p style="margin-bottom: 20px; font-size: 1.05em; line-height: 1.6;">
-                    <strong>Gravité Fresq</strong> is a satirical post-punk project born from the gloom of Ireland. We exist at the intersection of 80s synthpop nostalgia and the crushing absurdity of modern corporate life.
+                    <strong>Gravité Fresq</strong> is a satirical post-punk project born from the gloom of Ireland. We
+                    exist at the intersection of 80s synthpop nostalgia and the crushing absurdity of modern corporate
+                    life.
                 </p>
 
                 <p style="margin-bottom: 20px; line-height: 1.6;">
-                    We don’t just write songs; we paint <strong>sonic frescoes</strong>—layered, aggressive, and absurd musical landscapes designed for the cynics, the quiet quitters, and anyone who has ever stared into a cold purse and felt the void staring back.
+                    We don’t just write songs; we paint <strong>sonic frescoes</strong>—layered, aggressive, and absurd
+                    musical landscapes designed for the cynics, the quiet quitters, and anyone who has ever stared into
+                    a cold purse and felt the void staring back.
                 </p>
 
-                <h2 style="color: #ffffff; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">The Sound</h2>
+                <h2 style="color: #ffffff; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                    The Sound</h2>
                 <p style="margin-bottom: 20px; line-height: 1.6;">
-                    Our music fuses the mechanical precision of new wave with the raw, emotional exhaustion of post-punk. Think driving basslines, icy synthesizers, and melodies that stick in your head like a bad memo from HR. It is the sound of serious art colliding with dark, biting humor.
+                    Our music fuses the mechanical precision of new wave with the raw, emotional exhaustion of
+                    post-punk. Think driving basslines, icy synthesizers, and melodies that stick in your head like a
+                    bad memo from HR. It is the sound of serious art colliding with dark, biting humor.
                 </p>
 
-                <h2 style="color: #ffffff; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">The Mission</h2>
+                <h2 style="color: #ffffff; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                    The Mission</h2>
                 <p style="margin-bottom: 30px; line-height: 1.6;">
-                    We are here to dismantle the "Festive Season" and reclaim reality. Our lyrics tackle everything from the performative joy of office parties (<em>"Festive Season My Arse"</em>) to the surreal debates that only happen in Irish pubs (<em>"The Great Nipple Debate"</em>).
+                    We are here to dismantle the "Festive Season" and reclaim reality. Our lyrics tackle everything from
+                    the performative joy of office parties (<em>"Festive Season My Arse"</em>) to the surreal debates
+                    that only happen in Irish pubs (<em>"The Great Nipple Debate"</em>).
                 </p>
 
                 <p style="font-size: 1.1em; font-weight: bold; margin-bottom: 40px; line-height: 1.6;">
-                    Gravité Fresq is the antidote to forced cheer. 
-                    <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse">
+                    Gravité Fresq is the antidote to forced cheer.
+                    <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse" target="_blank">
                         <span style="color: #00d4ff;">Join the rebellion.</span>
-                        </a>
-                </p>
-
-                <p style="font-size: 1.1em; font-weight: bold; margin-bottom: 40px; line-height: 1.6;">
-                    <a href="https://distrokid.com/hyperfollow/gravitfresq/festive-season-my-arse">
-                        <span style="color: #00d4ff;">Click on Promo Card to PRE-SAVE</span>
-                        </a>
+                    </a>
                 </p>
 
             </div>
         </div>
     </div>
 
-    <div id="scroller-container">
-        <div id="scroller-track"></div>
+    <div id="bottom-container">
+
+        <a href="https://www.youtube.com/@gravitefresq" class="social-link" title="YouTube" target="_blank">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+        </a>
+
+        <a href="https://www.tiktok.com/@gravitefresq" class="social-link" title="TikTok" target="_blank">
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.656 1.029c1.637-0.025 3.262-0.012 4.886-0.025 0.054 2.031 0.878 3.859 2.189 5.213l-0.002-0.002c1.411 1.271 3.247 2.095 5.271 2.235l0.028 0.002v5.036c-1.912-0.048-3.71-0.489-5.331-1.247l0.082 0.034c-0.784-0.377-1.447-0.764-2.077-1.196l0.052 0.034c-0.012 3.649 0.012 7.298-0.025 10.934-0.103 1.853-0.719 3.543-1.707 4.954l0.020-0.031c-1.652 2.366-4.328 3.919-7.371 4.011l-0.014 0c-0.123 0.006-0.268 0.009-0.414 0.009-1.73 0-3.347-0.482-4.725-1.319l0.040 0.023c-2.508-1.509-4.238-4.091-4.558-7.094l-0.004-0.041c-0.025-0.625-0.037-1.25-0.012-1.862 0.49-4.779 4.494-8.476 9.361-8.476 0.547 0 1.083 0.047 1.604 0.136l-0.056-0.008c0.025 1.849-0.050 3.699-0.050 5.548-0.423-0.153-0.911-0.242-1.42-0.242-1.868 0-3.457 1.194-4.045 2.861l-0.009 0.030c-0.133 0.427-0.21 0.918-0.21 1.426 0 0.206 0.013 0.41 0.037 0.61l-0.002-0.024c0.332 2.046 2.086 3.59 4.201 3.59 0.061 0 0.121-0.001 0.181-0.004l-0.009 0c1.463-0.044 2.733-0.831 3.451-1.994l0.010-0.018c0.267-0.372 0.45-0.822 0.511-1.311l0.001-0.014c0.125-2.237 0.075-4.461 0.087-6.698 0.012-5.036-0.012-10.060 0.025-15.083z">
+                </path>
+            </svg>
+        </a>
+
+        <a href="https://www.instagram.com/gravitefresq/" class="social-link" title="Instagram" target="_blank">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+            </svg>
+        </a>
+
+        <a href="https://x.com/gravitefresq" class="social-link" title="X (Twitter)" target="_blank">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+            </svg>
+        </a>
+
+        <a href="mailto:gf@gravitefresq.com" class="social-link" title="Email" target="_blank">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 4H5a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-.67 2L12 10.75 5.67 6zM19 18H5a1 1 0 0 1-1-1V7.25l7.4 5.55a1 1 0 0 0 .6.2 1 1 0 0 0 .6-.2L20 7.25V17a1 1 0 0 1-1 1z">
+                </path>
+            </svg>
+        </a>
+
     </div>
 
-<script>
-    const rawText = "come again soon and take your little dog with you the air feels thin and the walls are listening closely for whispers of secret plans or recipes for disaster we need to move quietly through the fields where the cabbage grows wild and the scarecrows tell lies about the harvest the moon is full but the light is fake it's a stage prop designed to confuse the migrating birds i found a coin from a forgotten era that smelled of old electricity and regret i gave it to a pigeon that promised to deliver a message to the highest tower but it only flew sideways into a hedge and started singing opera very loudly the truth is we are all waiting for the signal from the ocean a single ripple that will confirm the existence of underwater libraries and librarians who only speak in riddles about lost socks and time travel";
-
-    const track = document.getElementById('scroller-track');
-    const span1 = document.createElement('span');
-    span1.className = 'scrolling-text';
-    span1.innerText = rawText;
-    const span2 = document.createElement('span');
-    span2.className = 'scrolling-text';
-    span2.innerText = rawText;
-    track.appendChild(span1);
-    track.appendChild(span2);
-</script>
-
 </body>
+
 </html>
