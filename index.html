@@ -43,7 +43,7 @@
             padding: 20px;
             justify-content: center;
             align-items: center;
-            padding-bottom: 120px;
+            padding-bottom: 140px;
         }
         .glass-card {
             display: flex;
@@ -110,7 +110,7 @@
         }
         h1 {
             margin: 0 0 20px 0;
-            font-size: 3rem;
+            font-size: 2.7rem;
             color: #00d4ff;
             text-transform: uppercase;
             font-weight: 700;
@@ -121,7 +121,7 @@
         p {
             line-height: 1.8;
             margin-bottom: 20px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #f0f0f0;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
             font-weight: 400;
@@ -166,14 +166,15 @@
             width: 100%;
             height: 60px;
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
+            padding-right: 30px;
             align-items: center;
             gap: 20px;
             background-color: #ff00ff;
             color: #000;
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             transition: background-color 0.3s ease, color 0.3s ease;
@@ -215,21 +216,28 @@
             align-items: center;
             gap: 15px;
         }
-        .header-icon {
+        .header-icon, 
+        .header-icon:visited {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 30px;
             height: 30px;
+            color: inherit; 
+            text-decoration: none; 
             transition: transform 0.2s ease;
         }
         .header-icon svg {
             width: 100%;
             height: 100%;
             fill: currentColor;
+            transition: filter 0.2s ease;
         }
         .header-icon:hover {
             transform: scale(1.2);
+        }
+            .header-icon:hover svg {
+            filter: drop-shadow(0 0 4px currentColor);
         }
         .glass-card:has(.latest-release:hover) {
             border-left-color: #00d4ff !important;
@@ -237,14 +245,15 @@
         @media (max-width: 900px) {
             .page-wrapper {
                 padding: 10px;
-                padding-bottom: 120px;
                 display: block;
+                padding-bottom: 120px;
             }
             .glass-card {
                 width: 100%;
-                border-left: none;
+                border-left: 2px solid #ff00ff;
                 border-top: 4px solid #ff00ff;
                 background: rgba(10, 10, 10, 0.85);
+                transition: border-left-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
             }
             .col-image {
                 height: 350px;
@@ -255,20 +264,29 @@
             h1 {
                 font-size: 1.8rem;
             }
+            p {
+                font-size: 0.9rem;
+            }
             .latest-release {
                 height: 50px;
                 padding: 0 15px;
-                justify-content: space-between;
+                justify-content: flex-end;
+                padding-right: 30px;
                 gap: 10px;
             }
-            .hide-on-mobile {
+            .glass-card:has(.latest-release:hover) {
+                border-left-color: #00d4ff !important;
+            }
+            .release-text-hide-on-mobile {
                 display: none !important;
+                text-align: right;
             }
             .release-text {
                 font-size: 1rem;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                text-align: right;
             }
             .header-icon {
                 width: 32px;
@@ -301,8 +319,8 @@
             <div class="latest-release">
                 <div class="pulsing-dot"></div>
                 <span class="release-text">
-                    <span class="hide-on-mobile">LATEST TRANSMISSION: </span>
-                    MANDATORY LISTENING
+                    <span class="release-text-hide-on-mobile">LATEST TRANSMISSION - </span>
+                    MANDATORY LISTENING:
                 </span>
                 <div class="release-icons">
                     <a href="https://open.spotify.com/track/4a5TEbVWu2BHc7knRiTJfi" target="_blank" class="header-icon"
@@ -331,8 +349,10 @@
                     and everyday absurdity frozen into sharp, rhythmic scenes. The misspelled <strong>Fresq</strong> is
                     intentional - a glitch in the <i>façade</i> - hinting that the systems presented as solid and
                     authoritative are slightly wrong, slightly cracked.</p>
+                <!---->
                 <p>The name also carries a quiet tonal proximity to <strong>grotesque</strong> - not as an anagram or a
                     claim, but as a cousin in mood: seriousness distorted, authority rendered slightly uncanny.</p>
+                <!---->
                 <p>The result is music that feels heavy but self-aware, intellectual yet confrontational: a fresco of
                     gravity where seriousness is both exposed and mocked, and the audience is invited to stand back and
                     recognise themselves on the wall.</p>
