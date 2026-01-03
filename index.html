@@ -346,8 +346,9 @@
             }
 
             .latest-release {
-                height: 50px;
-                padding: 0 15px;
+                height: auto;
+                min-height: 50px;
+                padding: 5px 15px;
                 justify-content: flex-end;
                 padding-right: 30px;
                 gap: 10px;
@@ -359,11 +360,11 @@
             }
 
             .release-text {
-                font-size: 1rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                font-size: 0.9rem;
+                white-space: normal;
+                overflow: visible;
                 text-align: right;
+                line-height: 1.2;
             }
 
             .header-icon {
