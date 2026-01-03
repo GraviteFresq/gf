@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,10 +17,12 @@
     <link rel="manifest" href="manifest.json">
     <meta name="description"
         content="Sardonic Post-Punk & 80s Synthpop. Painting sonic frescoes of gloomy absurdity and modern dread. Stream the rebellion.">
+    <meta name="author" content="Gravité Fresq">
     <style>
         * {
             box-sizing: border-box;
         }
+
         body,
         html {
             margin: 0;
@@ -31,6 +34,25 @@
             overflow-x: hidden;
             background-color: #000;
         }
+
+        a:focus-visible {
+            outline: 2px solid #00d4ff;
+            outline-offset: 4px;
+            border-radius: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            ::before,
+            ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
         .background-container {
             position: fixed;
             top: 0;
@@ -38,13 +60,29 @@
             width: 100%;
             height: 100%;
             z-index: 0;
+            background-color: #000;
+            overflow: hidden;
             background-image: url('band_photo.jpg');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
-            will-change: transform;
-            transform: translateZ(0);
         }
+
+        .background-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
         .page-wrapper {
             position: relative;
             z-index: 10;
@@ -56,6 +94,7 @@
             align-items: center;
             padding-bottom: 140px;
         }
+
         .glass-card {
             display: flex;
             flex-direction: column;
@@ -73,12 +112,47 @@
             text-align: left;
             transition: border-left-color 0.3s ease, border-right-color 0.3s, border-top-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
         }
+
+        .glass-card.hover-release {
+            border-left-color: #00d4ff !important;
+            border-top-color: #00d4ff !important;
+        }
+
         .mobile-band-photo {
             display: none;
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+            background-image: url('band_photo.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
         }
+
+        .mobile-band-photo video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        .video-fade-out {
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+
         .col-text {
             padding: 50px;
         }
+
         h1 {
             margin: 0 0 20px 0;
             font-size: 2.7rem;
@@ -89,6 +163,7 @@
             line-height: 1.1;
             text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
         }
+
         p {
             line-height: 1.8;
             margin-bottom: 20px;
@@ -97,6 +172,7 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
             font-weight: 400;
         }
+
         .latest-release {
             width: 100%;
             height: 60px;
@@ -115,10 +191,12 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             cursor: default;
         }
+
         .latest-release:hover {
             background-color: #00d4ff;
             color: #ff00ff;
         }
+
         .pulsing-dot {
             width: 12px;
             height: 12px;
@@ -128,29 +206,35 @@
             animation: pulse 1.5s infinite;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
+
         .latest-release:hover .pulsing-dot {
             background-color: #ff00ff;
             box-shadow: 0 0 5px #ff00ff;
         }
+
         @keyframes pulse {
             0% {
                 opacity: 1;
                 transform: scale(1);
             }
+
             50% {
                 opacity: 0.5;
                 transform: scale(1.2);
             }
+
             100% {
                 opacity: 1;
                 transform: scale(1);
             }
         }
+
         .release-icons {
             display: flex;
             align-items: center;
             gap: 15px;
         }
+
         .header-icon,
         .header-icon:visited {
             display: flex;
@@ -162,22 +246,22 @@
             text-decoration: none;
             transition: transform 0.2s ease;
         }
+
         .header-icon svg {
             width: 100%;
             height: 100%;
             fill: currentColor;
             transition: filter 0.2s ease;
         }
+
         .header-icon:hover {
             transform: scale(1.2);
         }
+
         .header-icon:hover svg {
             filter: drop-shadow(0 0 4px currentColor);
         }
-        .glass-card:has(.latest-release:hover) {
-            border-left-color: #00d4ff !important;
-            border-top-color: #00d4ff !important;
-        }
+
         .social-footer {
             position: fixed;
             bottom: 0;
@@ -191,6 +275,7 @@
             gap: 40px;
             z-index: 100;
         }
+
         .social-link {
             display: block;
             margin-bottom: 10px;
@@ -199,10 +284,12 @@
             transition: transform 0.2s ease;
             opacity: 0.8;
         }
+
         .social-link:hover {
             transform: translateY(-5px) scale(1.1);
             opacity: 1;
         }
+
         .social-link svg {
             width: 100%;
             height: 100%;
@@ -210,20 +297,23 @@
             filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.6));
             transition: fill 0.2s ease, transform 0.2s ease, filter 0.2s ease;
         }
+
         .social-link:hover svg {
             fill: #00d4ff;
             filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6));
         }
+
         @media (max-width: 1400px) {
             .background-container {
-                background-image: none;
-                background-color: #000;
+                display: none;
             }
+
             .page-wrapper {
                 padding: 10px;
                 display: block;
                 padding-bottom: 120px;
             }
+
             .glass-card {
                 width: 100%;
                 margin-top: 20px;
@@ -232,29 +322,29 @@
                 border-top: 2px solid #ff00ff;
                 background: rgba(10, 10, 10, 0.85);
             }
-            .glass-card:has(.latest-release:hover) {
+
+            .glass-card.hover-release {
                 border-left-color: #00d4ff !important;
                 border-right-color: #00d4ff !important;
                 border-top-color: #00d4ff !important;
             }
+
             .mobile-band-photo {
                 display: block;
-                width: 100%;
-                aspect-ratio: 16/9;
-                background-image: url('band_photo.jpg');
-                background-size: cover;
-                background-position: center top;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
+
             .col-text {
                 padding: 25px 20px;
             }
+
             h1 {
                 font-size: 1.8rem;
             }
+
             p {
                 font-size: 0.9rem;
             }
+
             .latest-release {
                 height: 50px;
                 padding: 0 15px;
@@ -262,10 +352,12 @@
                 padding-right: 30px;
                 gap: 10px;
             }
+
             .release-text-hide-on-mobile {
                 display: none !important;
                 text-align: right;
             }
+
             .release-text {
                 font-size: 1rem;
                 white-space: nowrap;
@@ -273,15 +365,18 @@
                 text-overflow: ellipsis;
                 text-align: right;
             }
+
             .header-icon {
                 width: 32px;
                 height: 32px;
                 padding: 2px;
             }
+
             .social-footer {
                 height: 80px;
                 gap: 20px;
             }
+
             .social-link {
                 width: 32px;
                 height: 32px;
@@ -289,11 +384,17 @@
         }
     </style>
 </head>
+
 <body>
-    <div class="background-container"></div>
-    <div class="page-wrapper">
-        <div class="glass-card">
-            <div class="latest-release">
+    <div class="background-container">
+        <video muted playsinline preload="none" poster="band_photo.jpg">
+            <source src="band_intro.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <main class="page-wrapper">
+        <div class="glass-card" id="mainCard">
+            <div class="latest-release" id="latestReleaseBadge" role="presentation">
                 <div class="pulsing-dot"></div>
                 <span class="release-text">
                     <span class="release-text-hide-on-mobile">LATEST TRANSMISSION - </span>
@@ -317,7 +418,13 @@
                     </a>
                 </div>
             </div>
-            <div class="mobile-band-photo"></div>
+
+            <div class="mobile-band-photo">
+                <video muted playsinline preload="none" poster="band_photo.jpg">
+                    <source src="band_intro.mp4" type="video/mp4">
+                </video>
+            </div>
+
             <div class="col-text">
                 <h1>GRAVITÉ FRESQ</h1>
                 <p>We are a sardonic music project fusing post-punk & 80s synthpop, treating modern pressure as a
@@ -337,8 +444,9 @@
                             permanent, and slightly wrong.</i></strong></p>
             </div>
         </div>
-    </div>
-    <div class="social-footer">
+    </main>
+
+    <footer class="social-footer">
         <a href="https://open.spotify.com/artist/3hQNaCniHPVthP9eTZYF4J" class="social-link"
             title="Gravité Fresq on Spotify" rel="noopener noreferrer" aria-label="Gravité Fresq on Spotify"
             target="_blank">
@@ -391,6 +499,67 @@
                     d="M19 4H5a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-.67 2L12 10.75 5.67 6zM19 18H5a1 1 0 0 1-1-1V7.25l7.4 5.55a1 1 0 0 0 .6.2 1 1 0 0 0 .6-.2L20 7.25V17a1 1 0 0 1-1 1z" />
             </svg>
         </a>
-    </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const desktopVideo = document.querySelector('.background-container video');
+            const mobileVideo = document.querySelector('.mobile-band-photo video');
+
+            const glassCard = document.getElementById('mainCard');
+            const releaseBadge = document.getElementById('latestReleaseBadge');
+
+            let resizeTimer;
+
+            if (releaseBadge && glassCard) {
+                releaseBadge.addEventListener('mouseenter', () => {
+                    glassCard.classList.add('hover-release');
+                });
+                releaseBadge.addEventListener('mouseleave', () => {
+                    glassCard.classList.remove('hover-release');
+                });
+            }
+
+            function setupFadeOnEnd(videoElement) {
+                videoElement.addEventListener('timeupdate', () => {
+                    if (videoElement.duration && (videoElement.duration - videoElement.currentTime) < 1.0) {
+                        videoElement.classList.add('video-fade-out');
+                    }
+                });
+
+                videoElement.addEventListener('ended', () => {
+                    videoElement.classList.add('video-fade-out');
+                });
+            }
+
+            setupFadeOnEnd(desktopVideo);
+            setupFadeOnEnd(mobileVideo);
+
+            function handleVideoPlayback() {
+                const isDesktop = window.innerWidth > 1400;
+                const activeVideo = isDesktop ? desktopVideo : mobileVideo;
+                const inactiveVideo = isDesktop ? mobileVideo : desktopVideo;
+
+                inactiveVideo.pause();
+
+                if (activeVideo.paused && !activeVideo.ended && !activeVideo.classList.contains('video-fade-out')) {
+                    var playPromise = activeVideo.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => { console.log('Autoplay prevented or interrupted'); });
+                    }
+                }
+            }
+
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    handleVideoPlayback();
+                }, 100);
+            });
+
+            setTimeout(handleVideoPlayback, 100);
+        });
+    </script>
 </body>
+
 </html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>INTERNAL AUDIT: SCHRÖDINGER'S OFFICE</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000000;
+            font-family: "Courier New", Courier, monospace;
+        }
+
+        #intro-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            color: #000000;
+            z-index: 9999;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            transition: opacity 1s ease-out;
+        }
+
+        #intro-text {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+
+        #intro-image img {
+            width: 150px;
+            height: auto;
+            filter: grayscale(100%) contrast(120%);
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        #intro-subtext {
+            font-size: 14px;
+            font-weight: bold;
+            color: #000000;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+
+        .terminal-window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            min-height: 60%;
+            max-height: 95%;
+            height: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00d4ff;
+            z-index: 10;
+            color: #00FF00;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 2s ease-in;
+        }
+
+        .terminal-window::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .terminal-window::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        .terminal-window::-webkit-scrollbar-thumb {
+            background: #00d4ff;
+            border-radius: 5px;
+        }
+
+        #security-gate {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 100%;
+        }
+
+        input#password-input {
+            background: #111;
+            border: 1px solid #00d4ff;
+            color: #00FF00;
+            padding: 10px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            margin-top: 20px;
+            font-family: inherit;
+            outline: none;
+            text-align: center;
+            width: 60%;
+        }
+
+        button#enter-button {
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            padding: 10px 30px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            font-size: 1.1em;
+            transition: all 0.2s;
+        }
+
+        button#enter-button:hover {
+            background: #00FF00;
+            box-shadow: 0 0 10px #00FF00;
+        }
+
+        #error-msg {
+            color: #ff00ff;
+            margin-top: 15px;
+            display: none;
+            font-weight: bold;
+        }
+
+        #secure-content {
+            display: none;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 1.5em;
+            margin-top: 0;
+        }
+
+        .alert-banner {
+            background: #b00;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border: 1px solid red;
+        }
+
+        .section {
+            border: 1px solid #333;
+            padding: 20px;
+            margin-top: 25px;
+            background: rgba(0, 50, 0, 0.1);
+        }
+
+        .label {
+            background: #00FF00;
+            color: black;
+            padding: 2px 5px;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        .dl-btn {
+            display: block;
+            background-color: #222;
+            color: #00d4ff;
+            padding: 15px;
+            text-align: center;
+            text-decoration: none;
+            margin: 10px 0;
+            border: 1px solid #00d4ff;
+            font-weight: bold;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .dl-btn:hover {
+            background-color: #00d4ff;
+            color: #000;
+            box-shadow: 0 0 10px #00d4ff;
+        }
+
+        .footer {
+            margin-top: 50px;
+            font-size: 0.7em;
+            color: #555;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="intro-layer">
+        <div id="intro-text">CLOUDFLARE: Verifying that you are human and not an AI bot</div>
+        <div id="intro-image">
+            <img src="cat.gif" alt="System Glitch">
+        </div>
+        <div id="intro-subtext"></div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="terminal-window" id="main-terminal">
+
+        <div id="security-gate">
+            <h1 style="border-bottom: none; color: #00d4ff;">SECURE TERMINAL</h1>
+            <p>ENTER CLEARANCE CODE</p>
+            <input type="password" id="password-input" placeholder="ACCESS CODE" autocomplete="off">
+            <button id="enter-button" onclick="checkPassword()">AUTHENTICATE</button>
+            <p id="error-msg">ACCESS DENIED. INCORRECT CREDENTIALS.</p>
+        </div>
+
+        <div id="secure-content">
+            <div class="alert-banner">
+                ⚠ RESTRICTED ASSET: DJ CLEARANCE LEVEL 4
+            </div>
+
+            <h1>Asset Audit: Schrödinger's Office</h1>
+            <p>
+                <strong>DATE:</strong> 2026-01-23 (RELEASE DATE)<br>
+                <strong>STATUS:</strong> EMBARGO ACTIVE UNTIL 00:01 JAN 23<br>
+                <strong>UNIT:</strong> GRAVITÉ FRESQ
+            </p>
+
+            <div class="section">
+                <span class="label">STREAMING PREVIEW</span>
+                <br><br>
+                <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/YOUR_TRACK_ID_HERE&color=%2300ff00&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+            </div> <!-- ALSO UPDATE SECRET !!! -->
+
+            <div class="section">
+                <span class="label">BROADCAST FILES</span>
+                <p>Download the high-resolution assets for airplay.</p>
+
+                <a href="PASTE_YOUR_GOOGLE_DRIVE_WAV_LINK_HERE" class="dl-btn" target="_blank">⬇ DOWNLOAD MASTER WAV
+                    (44.1kHz)</a>
+                <a href="PASTE_YOUR_GOOGLE_DRIVE_PDF_LINK_HERE" class="dl-btn" target="_blank">⬇ DOWNLOAD INCIDENT
+                    REPORT (PDF)</a>
+            </div> <!-- ALSO UPDATE SECRET !!! -->
+
+            <div class="footer">
+                CONFIDENTIALITY NOTICE: The existence of this page is a trade secret.<br>
+                Do not share URL. Do not adjust your set.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var textElem = document.getElementById("intro-text");
+        var subTextElem = document.getElementById("intro-subtext");
+        var baseText = "CLOUDFLARE: Verifying that you are human and not an AI bot";
+        var currentDots = "";
+
+        var dotInterval = setInterval(function () {
+            currentDots += ".";
+            textElem.innerHTML = baseText + currentDots;
+        }, 200);
+
+        setTimeout(function () {
+            clearInterval(dotInterval);
+
+            textElem.innerHTML = baseText + currentDots + " VERIFICATION COMPLETED SUCCESSFULLY.";
+        }, 3500);
+
+        setTimeout(function () {
+            subTextElem.innerHTML = "Follow the black cat.";
+            subTextElem.style.opacity = "1";
+        }, 5000);
+
+        setTimeout(function () {
+            var intro = document.getElementById("intro-layer");
+            var mainTerm = document.getElementById("main-terminal");
+
+            intro.style.opacity = "0";
+            mainTerm.style.opacity = "1";
+
+            setTimeout(function () {
+                intro.style.display = "none";
+            }, 1000);
+
+        }, 6000);
+
+        var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+
+        c.height = window.innerHeight;
+        c.width = window.innerWidth;
+
+        var matrix = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+        matrix = matrix.split("");
+
+        var font_size = 14;
+        var columns = c.width / font_size;
+
+        var drops = [];
+        var columnTypes = [];
+
+        var neon_cyan = "#00d4ff";
+        var neon_magenta = "#ff00ff";
+
+        function initMatrix() {
+            drops = [];
+            columnTypes = [];
+            for (var x = 0; x < columns; x++) {
+                drops[x] = 1;
+
+                var type = Math.random();
+                if (type < 0.40) {
+                    columnTypes[x] = 0;
+                } else if (type < 0.80) {
+                    columnTypes[x] = 1;
+                } else {
+                    columnTypes[x] = 2;
+                }
+            }
+        }
+
+        initMatrix();
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, c.width, c.height);
+
+            ctx.font = font_size + "px arial";
+
+            for (var i = 0; i < drops.length; i++) {
+                var text = matrix[Math.floor(Math.random() * matrix.length)];
+
+                if (columnTypes[i] === 0) {
+                    ctx.fillStyle = neon_cyan;
+                } else if (columnTypes[i] === 1) {
+                    ctx.fillStyle = neon_magenta;
+                } else {
+                    ctx.fillStyle = (Math.random() > 0.5) ? neon_cyan : neon_magenta;
+                }
+
+                ctx.fillText(text, i * font_size, drops[i] * font_size);
+
+                if (drops[i] * font_size > c.height && Math.random() > 0.975)
+                    drops[i] = 0;
+
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        window.onresize = function () {
+            c.height = window.innerHeight;
+            c.width = window.innerWidth;
+            columns = c.width / font_size;
+            initMatrix();
+        };
+
+        function checkPassword() {
+            var input = document.getElementById("password-input").value;
+
+            var secret = atob("TUFUUklY");
+
+            if (input.toUpperCase().trim() === secret) {
+                document.getElementById("security-gate").style.display = "none";
+                document.getElementById("secure-content").style.display = "block";
+            } else {
+                document.getElementById("error-msg").style.display = "block";
+                document.getElementById("password-input").value = "";
+            }
+        }
+
+        document.getElementById("password-input").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") { checkPassword(); }
+        });
+    </script>
+
+</body>
+
+</html>
