@@ -443,7 +443,21 @@
     <main class="page-wrapper">
       <div class="glass-card" id="mainCard">
         <div class="latest-release" id="latestReleaseBadge" role="presentation">
-          <div class="pulsing-dot"></div>
+          <a
+            href="system-log.html"
+            aria-label="System Log"
+            style="
+              cursor: default;
+              text-decoration: none;
+              border: none;
+              outline: none;
+              display: block;
+              height: 12px;
+              width: 12px;
+            "
+          >
+            <div class="pulsing-dot"></div>
+          </a>
           <span class="release-text">
             <span class="release-text-hide-on-mobile"
               >LATEST TRANSMISSION -
@@ -629,7 +643,6 @@
         </svg>
       </a>
     </footer>
-
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const desktopVideo = document.querySelector(
