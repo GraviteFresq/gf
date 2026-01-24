@@ -605,58 +605,7 @@
     <main class="page-wrapper">
       <div class="glass-card" id="mainCard">
         <div class="latest-release" id="latestReleaseBadge" role="presentation">
-          <a
-            href="system-log.html"
-            aria-label="System Log"
-            style="
-              cursor: default;
-              text-decoration: none;
-              border: none;
-              outline: none;
-              display: block;
-              height: 12px;
-              width: 12px;
-            "
-          >
-            <div class="pulsing-dot"></div>
-          </a>
-          <span class="release-text">
-            <span class="release-text-hide-on-mobile"
-              >LATEST TRANSMISSION -
-            </span>
-            MANDATORY LISTENING:
-          </span>
-          <div class="release-icons">
-            <a
-              href="https://open.spotify.com/track/4a5TEbVWu2BHc7knRiTJfi"
-              target="_blank"
-              class="header-icon"
-              rel="noopener noreferrer"
-              aria-label="Release on Spotify"
-              title="Release on Spotify"
-            >
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.2-1.32 9.6-0.66 13.261 1.619.42.24.479.78.179 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"
-                />
-              </svg>
-            </a>
-            <a
-              href="https://music.apple.com/us/album/festive-season-my-arse-single/1860030596"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Release on Apple Music"
-              class="header-icon"
-              title="Release on Apple Music"
-            >
-              <svg viewBox="0 0 48 48">
-                <path
-                  d="M37,4H13c-4.962,0-9,4.037-9,9v24c0,4.963,4.038,9,9,9h24c4.962,0,9-4.037,9-9V13C46,8.037,41.962,4,37,4z M35,27v4v0.021 h-0.002C34.986,33.768,32.749,36,30,36h-0.5c-0.987,0-1.933-0.42-2.596-1.152c-0.662-0.731-0.985-1.718-0.887-2.705 C26.195,30.38,27.787,29,29.643,29H31c1.103,0,2-0.897,2-2v-9.795l-12,2.25V30v4c0,2.757-2.243,5-5,5h-0.5 c-0.987,0-1.933-0.42-2.596-1.152c-0.662-0.731-0.985-1.718-0.887-2.705C12.195,33.38,13.787,32,15.643,32H17c1.103,0,2-0.897,2-2 V15.353c0-0.963,0.687-1.79,1.633-1.966l12.591-2.36c0.439-0.083,0.891,0.033,1.234,0.319C34.803,11.632,35,12.053,35,12.5V27z"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
+           </div>
 
         <div class="mobile-band-photo">
           <video muted playsinline preload="none" poster="band_photo.jpg">
@@ -824,6 +773,7 @@
         const transmissions = [
           {
             type: "released",
+            duration: 10000,
             prefix: "MANDATORY LISTENING:",
             title: "SCHRÖDINGER'S OFFICE",
             links: {
@@ -835,6 +785,7 @@
           },
           {
             type: "released",
+            duration: 5000,
             prefix: "PREVIOUSLY RELEASED:",
             title: "FESTIVE SEASON MY ARSE",
             links: {
@@ -846,11 +797,12 @@
           },
           {
             type: "upcoming",
+            duration: 5000,
             prefix: "INCOMING TRANSMISSION:",
             title: "REALITY IS PREMIUM",
             date: "COMING SOON",
             details: {
-              image: "band_photo.jpg",
+              image: "upcoming_artwork.jpg",
               text: "A sonic exploration of the void. Pre-save unavailable. Existence pending.",
             },
           },
@@ -875,9 +827,35 @@
           if (data.type === "released") {
             rightSideHtml = `
               <div class="release-icons">
-                <a href="${data.links.spotify}" target="_blank" class="header-icon" title="Spotify"><svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.2-1.32 9.6-0.66 13.261 1.619.42.24.479.78.179 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></a>
-                <a href="${data.links.apple}" target="_blank" class="header-icon" title="Apple Music"><svg viewBox="0 0 48 48"><path d="M37,4H13c-4.962,0-9,4.037-9,9v24c0,4.963,4.038,9,9,9h24c4.962,0,9-4.037,9-9V13C46,8.037,41.962,4,37,4z M35,27v4v0.021 h-0.002C34.986,33.768,32.749,36,30,36h-0.5c-0.987,0-1.933-0.42-2.596-1.152c-0.662-0.731-0.985-1.718-0.887-2.705 C26.195,30.38,27.787,29,29.643,29H31c1.103,0,2-0.897,2-2v-9.795l-12,2.25V30v4c0,2.757-2.243,5-5,5h-0.5 c-0.987,0-1.933-0.42-2.596-1.152c-0.662-0.731-0.985-1.718-0.887-2.705C12.195,33.38,13.787,32,15.643,32H17c1.103,0,2-0.897,2-2 V15.353c0-0.963,0.687-1.79,1.633-1.966l12.591-2.36c0.439-0.083,0.891,0.033,1.234,0.319C34.803,11.632,35,12.053,35,12.5V27z"/></svg></a>
-                <a href="${data.links.youtube}" target="_blank" class="header-icon" title="YouTube Lyrics"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                <a
+                  href="${data.links.spotify}"
+                  target="_blank"
+                  class="header-icon"
+                  rel="noopener noreferrer"
+                  aria-label="Release on Spotify"
+                  title="Release on Spotify"
+                >
+                  <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.2-1.32 9.6-0.66 13.261 1.619.42.24.479.78.179 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                </a>
+                <a
+                  href="${data.links.apple}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Release on Apple Music"
+                  class="header-icon"
+                  title="Release on Apple Music"
+                >
+                  <svg viewBox="0 0 48 48"><path d="M37,4H13c-4.962,0-9,4.037-9,9v24c0,4.963,4.038,9,9,9h24c4.962,0,9-4.037,9-9V13C46,8.037,41.962,4,37,4z M35,27v4v0.021 h-0.002C34.986,33.768,32.749,36,30,36h-0.5c-0.987,0-1.933-0.42-2.596-1.152c-0.662-0.731-0.985-1.718-0.887-2.705 C26.195,30.38,27.787,29,29.643,29H31c1.103,0,2-0.897,2-2v-9.795l-12,2.25V30v4c0,2.757-2.243,5-5,5h-0.5 c-0.987,0-1.933-0.42-2.596-1.152c-0.662-0.731-0.985-1.718-0.887-2.705C12.195,33.38,13.787,32,15.643,32H17c1.103,0,2-0.897,2-2 V15.353c0-0.963,0.687-1.79,1.633-1.966l12.591-2.36c0.439-0.083,0.891,0.033,1.234,0.319C34.803,11.632,35,12.053,35,12.5V27z"/></svg>
+                </a>
+                <a
+                  href="${data.links.youtube}"
+                  target="_blank"
+                  class="header-icon"
+                  aria-label="Release on YouTube"
+                  title="Release on YouTube"
+                >
+                  <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
               </div>`;
           } else {
             rightSideHtml = `<button class="info-btn" id="upcomingBtn">INFO</button>`;
@@ -891,7 +869,16 @@
           // Inject HTML - Uses CSS class instead of inline styles for mobile support
           contentWrapper.innerHTML = `
             <div class="release-inner-content">
-              <div class="${indicatorClass}"></div>
+              <a
+                href="system-log.html"
+                aria-label="System Log"
+                style="
+                  cursor: default;
+                  text-decoration: none;
+                "
+              >
+                <div class="${indicatorClass}" style="margin: 0;"></div>
+              </a>
               <span class="release-text">
                 <span class="release-text-hide-on-mobile">${data.prefix} </span>
                 ${displayTitle}
@@ -930,12 +917,22 @@
         }
 
         // Initialize and Start Rotation
-        if (releaseBadge) {
-          updateDisplay();
-          setInterval(() => {
+        function scheduleNextSlide() {
+          if (!releaseBadge) return;
+          
+          // Get duration of the CURRENT slide before moving to next
+          const slideDuration = transmissions[currentIndex].duration || 7000;
+
+          setTimeout(() => {
             currentIndex = (currentIndex + 1) % transmissions.length;
             updateDisplay();
-          }, 7000);
+            scheduleNextSlide();
+          }, slideDuration);
+        }
+
+        if (releaseBadge) {
+          updateDisplay();
+          scheduleNextSlide();
         }
 
         // Modal Listeners
