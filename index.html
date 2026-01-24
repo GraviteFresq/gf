@@ -252,6 +252,8 @@
         box-shadow: 0 0 5px #00d4ff;
         animation: pulse 1.5s infinite;
         transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        display: inline-block; /* Added */
+        margin-right: 8px; /* Added */
       }
 
       .latest-release:hover .pulsing-dot {
@@ -350,6 +352,129 @@
         filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6));
       }
 
+      .release-text {
+        line-height: 1; /* Added */
+        padding-top: 2px; /* Added */
+        display: inline-block; /* Added */
+      }
+
+      .static-square {
+        width: 10px; /* Changed from 12px */
+        height: 10px; /* Changed from 12px */
+        background-color: #000; /* Changed from #e0e0e0 */
+        border-radius: 0;
+        box-shadow: none;
+        animation: none;
+        transition: all 0.3s ease;
+        display: inline-block; /* Added */
+        margin-right: 8px; /* Added */
+      }
+
+      .fade-wrapper {
+        display: flex; /* Added */
+        align-items: center; /* Added */
+        justify-content: flex-end; /* Added */
+        gap: 20px; /* Added */
+        width: 100%; /* Added */
+        transition: opacity 0.5s ease-out,
+          transform 1.5s cubic-bezier(0.18, 0.89, 0.32, 1.28); /* Changed timing function */
+        opacity: 1;
+        transform: translateX(0); /* Changed from translateY(0) */
+      }
+
+      .fade-wrapper.fading-out {
+        opacity: 0;
+        transform: translateX(-500px); /* Changed from translateY(-10px) */
+      }
+
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        background: rgba(0, 0, 0, 0.9); /* Changed from 0.85 */
+        backdrop-filter: blur(10px); /* Changed from 8px */
+        -webkit-backdrop-filter: blur(10px); /* Changed from 8px */
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+        opacity: 1;
+      }
+
+      .modal-content {
+        background: #000; /* Changed from #111 */
+        border: 2px solid #ff00ff; /* Changed from 1px solid #00d4ff */
+        padding: 40px;
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 0 50px rgba(255, 0, 255, 0.3); /* Changed from 0 0 30px rgba(0, 212, 255, 0.2) */
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        color: #00d4ff; /* Changed from #ff00ff */
+        font-weight: bold; /* Added */
+        font-size: 24px;
+        cursor: pointer;
+        font-family: monospace;
+      }
+
+      .modal-content h2 {
+        color: #ff00ff; /* Changed from #00d4ff */
+        text-transform: uppercase;
+        margin-top: 0;
+        letter-spacing: 2px; /* Added */
+      }
+
+      .modal-content img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        border: 1px solid #333;
+      }
+
+      .info-btn {
+        background: #000; /* Changed from transparent */
+        border: none; /* Changed from 1px solid #e0e0e0 */
+        color: #00d4ff; /* Changed from #e0e0e0 */
+        padding: 6px 12px; /* Changed from 5px 10px */
+        cursor: pointer;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 900; /* Added */
+        font-size: 0.85rem; /* Changed from 0.8rem */
+        letter-spacing: 1px; /* Added */
+        text-transform: uppercase;
+        transition: all 0.2s ease; /* Changed from 0.3s */
+        box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2); /* Added */
+      }
+
+      .info-btn:hover {
+        background: #00d4ff;
+        color: #000;
+        transform: translate(-2px, -2px); /* Added */
+        box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4); /* Added */
+      }
+      /* Class for the dynamic content injected by JS */
+      .release-inner-content {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 20px;
+        width: 100%;
+      }
+
       @media (max-width: 1400px) {
         .background-container {
           display: none;
@@ -428,6 +553,43 @@
         .social-link {
           width: 32px;
           height: 32px;
+        }
+
+        /* Tighter gap for mobile */
+        .release-inner-content {
+          gap: 10px;
+        }
+
+        /* Added override for smaller button */
+        .info-btn {
+          padding: 4px 8px;
+          font-size: 0.75rem;
+        }
+
+        /* Adjust Modal for small screens */
+        .modal-content {
+          padding: 20px 15px;
+          width: 95%;
+          border-width: 1px;
+        }
+
+        .modal-content h2 {
+          font-size: 1.4rem;
+          margin-bottom: 15px;
+        }
+
+        .modal-content p {
+          font-size: 0.9rem;
+        }
+
+        .modal-close {
+          top: 5px;
+          right: 10px;
+        }
+
+        /* Added override for slide distance */
+        .fade-wrapper.fading-out {
+          transform: translateX(-100px);
         }
       }
     </style>
@@ -653,6 +815,140 @@
         const glassCard = document.getElementById("mainCard");
         const releaseBadge = document.getElementById("latestReleaseBadge");
 
+        /* --- INSERTED ROTATION LOGIC START --- */
+        const modal = document.getElementById("infoModal");
+        const closeModal = document.getElementById("closeModal");
+        const modalBody = document.getElementById("modalBody");
+
+       // 1. Define Tracks
+        const transmissions = [
+          {
+            type: "released",
+            prefix: "MANDATORY LISTENING:",
+            title: "SCHRÖDINGER'S OFFICE",
+            links: {
+              spotify: "https://open.spotify.com/track/1ttbqcCxrLr1s6fPDasl6b",
+              apple:
+                "https://music.apple.com/us/song/schrödingers-office/1868808857",
+              youtube: "https://www.youtube.com/watch?v=HbCtfT1EGlg",
+            },
+          },
+          {
+            type: "released",
+            prefix: "PREVIOUSLY RELEASED:",
+            title: "FESTIVE SEASON MY ARSE",
+            links: {
+              spotify: "https://open.spotify.com/track/4NInqs4o2jNGdGPrRTYQNH",
+              apple:
+                "https://music.apple.com/us/song/festive-season-my-arse/1868808858",
+              youtube: "https://www.youtube.com/watch?v=J51PO0x0cBM",
+            },
+          },
+          {
+            type: "upcoming",
+            prefix: "INCOMING TRANSMISSION:",
+            title: "REALITY IS PREMIUM",
+            date: "COMING SOON",
+            details: {
+              image: "band_photo.jpg",
+              text: "A sonic exploration of the void. Pre-save unavailable. Existence pending.",
+            },
+          },
+        ];
+
+        let currentIndex = 0;
+
+        function updateDisplay() {
+          if (!releaseBadge) return;
+          const data = transmissions[currentIndex];
+
+          // Create a temporary wrapper for fade effect
+          const contentWrapper = document.createElement("div");
+          contentWrapper.className = "fade-wrapper fading-out";
+
+          // Logic: Dot vs Square
+          const indicatorClass =
+            data.type === "released" ? "pulsing-dot" : "static-square";
+
+          // Logic: Icons vs Info Button
+          let rightSideHtml = "";
+          if (data.type === "released") {
+            rightSideHtml = `
+              <div class="release-icons">
+                <a href="${data.links.spotify}" target="_blank" class="header-icon" title="Spotify"><svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.2-1.32 9.6-0.66 13.261 1.619.42.24.479.78.179 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></a>
+                <a href="${data.links.apple}" target="_blank" class="header-icon" title="Apple Music"><svg viewBox="0 0 48 48"><path d="M37,4H13c-4.962,0-9,4.037-9,9v24c0,4.963,4.038,9,9,9h24c4.962,0,9-4.037,9-9V13C46,8.037,41.962,4,37,4z M35,27v4v0.021 h-0.002C34.986,33.768,32.749,36,30,36h-0.5c-0.987,0-1.933-0.42-2.596-1.152c-0.662-0.731-0.985-1.718-0.887-2.705 C26.195,30.38,27.787,29,29.643,29H31c1.103,0,2-0.897,2-2v-9.795l-12,2.25V30v4c0,2.757-2.243,5-5,5h-0.5 c-0.987,0-1.933-0.42-2.596-1.152c-0.662-0.731-0.985-1.718-0.887-2.705C12.195,33.38,13.787,32,15.643,32H17c1.103,0,2-0.897,2-2 V15.353c0-0.963,0.687-1.79,1.633-1.966l12.591-2.36c0.439-0.083,0.891,0.033,1.234,0.319C34.803,11.632,35,12.053,35,12.5V27z"/></svg></a>
+                <a href="${data.links.youtube}" target="_blank" class="header-icon" title="YouTube Lyrics"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+              </div>`;
+          } else {
+            rightSideHtml = `<button class="info-btn" id="upcomingBtn">INFO</button>`;
+          }
+
+          const displayTitle =
+            data.type === "upcoming"
+              ? data.title //`${data.title} // ${data.date}`
+              : data.title;
+
+          // Inject HTML - Uses CSS class instead of inline styles for mobile support
+          contentWrapper.innerHTML = `
+            <div class="release-inner-content">
+              <div class="${indicatorClass}"></div>
+              <span class="release-text">
+                <span class="release-text-hide-on-mobile">${data.prefix} </span>
+                ${displayTitle}
+              </span>
+              ${rightSideHtml}
+            </div>
+          `;
+
+          releaseBadge.innerHTML = "";
+          releaseBadge.appendChild(contentWrapper);
+
+          // FORCE REFLOW: This line forces the browser to acknowledge the 
+          // initial 'hidden' state before we allow it to animate.
+          void contentWrapper.offsetWidth; 
+
+          // Trigger Fade In
+          contentWrapper.classList.remove("fading-out");
+
+          // Attach click listener for Upcoming Info button
+          if (data.type === "upcoming") {
+            const btn = document.getElementById("upcomingBtn");
+            if (btn) {
+              btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation(); // Prevent bubbling to the card hover
+                modalBody.innerHTML = `
+                  <h2>${data.title}</h2>
+                  <img src="${data.details.image}" alt="${data.title}">
+                  <p>${data.details.text}</p>
+                  <p style="font-size: 0.8rem; opacity: 0.7; margin-top:20px;">RELEASE DATE: ${data.date}</p>
+                `;
+                modal.classList.add("active");
+              });
+            }
+          }
+        }
+
+        // Initialize and Start Rotation
+        if (releaseBadge) {
+          updateDisplay();
+          setInterval(() => {
+            currentIndex = (currentIndex + 1) % transmissions.length;
+            updateDisplay();
+          }, 7000);
+        }
+
+        // Modal Listeners
+        if (closeModal && modal) {
+          closeModal.addEventListener("click", () =>
+            modal.classList.remove("active")
+          );
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) modal.classList.remove("active");
+          });
+        }
+        /* --- INSERTED ROTATION LOGIC END --- */
+
         let resizeTimer;
 
         if (releaseBadge && glassCard) {
@@ -713,5 +1009,11 @@
         setTimeout(handleVideoPlayback, 100);
       });
     </script>
+    <div class="modal-overlay" id="infoModal">
+      <div class="modal-content">
+        <div class="modal-close" id="closeModal">X</div>
+        <div id="modalBody"></div>
+      </div>
+    </div>
   </body>
 </html>
