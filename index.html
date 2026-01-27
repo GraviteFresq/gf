@@ -156,8 +156,12 @@
         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         overflow: hidden;
         text-align: left;
-        transition: border-left-color 0.3s ease, border-right-color 0.3s,
-          border-top-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        transition:
+          border-left-color 0.3s ease,
+          border-right-color 0.3s,
+          border-top-color 0.3s ease,
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
       }
 
       .glass-card.hover-release {
@@ -235,7 +239,9 @@
         font-size: 1.25rem;
         letter-spacing: 1px;
         text-transform: uppercase;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
         cursor: default;
       }
 
@@ -251,7 +257,9 @@
         background-color: #00d4ff;
         box-shadow: 0 0 5px #00d4ff;
         animation: pulse 1.5s infinite;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        transition:
+          background-color 0.3s ease,
+          box-shadow 0.3s ease;
         display: inline-block; /* Added */
         margin-right: 8px; /* Added */
       }
@@ -344,7 +352,10 @@
         height: 100%;
         fill: #00d4ff;
         filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.6));
-        transition: fill 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+        transition:
+          fill 0.2s ease,
+          transform 0.2s ease,
+          filter 0.2s ease;
       }
 
       .social-link:hover svg {
@@ -376,7 +387,8 @@
         justify-content: flex-end; /* Added */
         gap: 20px; /* Added */
         width: 100%; /* Added */
-        transition: opacity 0.5s ease-out,
+        transition:
+          opacity 0.5s ease-out,
           transform 1.5s cubic-bezier(0.18, 0.89, 0.32, 1.28); /* Changed timing function */
         opacity: 1;
         transform: translateX(0); /* Changed from translateY(0) */
@@ -475,7 +487,72 @@
         width: 100%;
       }
 
+      .damage-report {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 40px 50px;
+        background: rgba(0, 0, 0, 0.3);
+      }
+      .damage-title {
+        color: #ffffff; 
+        font-size: 1.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 0 0 30px 0;
+        letter-spacing: 3px;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+      }
+      .damage-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+      .damage-col-title {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 10px;
+        color: #fff;
+      }
+      .damage-quote {
+        font-family: "Courier New", monospace; /* Typewriter style */
+        font-size: 0.85rem;
+        margin-bottom: 20px;
+        line-height: 1.5;
+        color: #d0d0d0;
+        border-left: 3px solid #444;
+        padding-left: 15px;
+      }
+      .damage-quote.hit {
+        border-color: #00d4ff;
+      }
+      .damage-quote.miss {
+        border-color: #ffcc00;
+        color: #aaa;
+        font-style: italic;
+      }
+      .quote-source {
+        display: block;
+        font-weight: 700;
+        font-size: 0.75rem;
+        margin-top: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
       @media (max-width: 1400px) {
+        .damage-report {
+          padding: 30px 20px;
+        }
+        .damage-grid {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+        .damage-title {
+          font-size: 1.5rem;
+        }
+
         .background-container {
           display: none;
         }
@@ -604,13 +681,91 @@
 
     <main class="page-wrapper">
       <div class="glass-card" id="mainCard">
-        <div class="latest-release" id="latestReleaseBadge" role="presentation">
-           </div>
+        <div
+          class="latest-release"
+          id="latestReleaseBadge"
+          role="presentation"
+        ></div>
 
         <div class="mobile-band-photo">
           <video muted playsinline preload="none" poster="band_photo.jpg">
             <source src="band_intro.mp4" type="video/mp4" />
           </video>
+        </div>
+
+        <div class="damage-report">
+          <h2 class="damage-title">Damage Report</h2>
+
+          <div class="damage-grid">
+            <div>
+              <div class="damage-col-title" style="color: #00d4ff">
+                ● System Hits
+              </div>
+
+              <div class="damage-quote hit">
+                "The satirical take on the corporate world is very well
+                executed. An impactful blend of big beat and industrial punk."
+                <span class="quote-source" style="color: #00d4ff"
+                  >- PLAY FM (France)</span
+                >
+              </div>
+              <div class="damage-quote hit">
+                "Irreverent and Rabelaisian... A stylised and retrogressive
+                sound."
+                <span class="quote-source" style="color: #00d4ff"
+                  >- ALT Music Radio (UK)</span
+                >
+              </div>
+              <div class="damage-quote hit">
+                "The music has a captivating atmosphere... 
+                high-quality arrangement with beautiful harmonic textures."
+                <span class="quote-source" style="color: #00d4ff"
+                  >- AUXOIS FM (France)</span
+                >
+              </div>
+              <div class="damage-quote hit">
+                "The chorus is a banger, I love the energy. Well done."
+                <span class="quote-source" style="color: #00d4ff"
+                  >- Balance la Sauce (France)</span
+                >
+              </div>
+            </div>
+
+            <div>
+              <div class="damage-col-title" style="color: #ffcc00">
+                ✖ System Warnings
+              </div>
+
+              <div class="damage-quote miss">
+                "I found this really catchy... my wife even grooved a bit, 
+                which she is allergic to fun."
+                <span class="quote-source" style="color: #ffcc00"
+                  >- Metal Institute of Thrashology (US)</span
+                >
+              </div>
+              <div class="damage-quote miss">
+                "Certified: Too dark and angry for our lighter, calmer
+                playlists."
+                <span class="quote-source" style="color: #ffcc00"
+                  >- Sonic Vortex (Spain)</span
+                >
+              </div>
+              <div class="damage-quote miss">
+                "I like the clean sound but I think the track is a 
+                bit too polished and dancy for this playlist."
+                <span class="quote-source" style="color: #ffcc00"
+                  >- cold tunes for cold days (Germany)</span
+                >
+              </div>
+              <div class="damage-quote miss">
+                "Hooky, modern take on Devo... but the lyrics may be
+                the biggest detriment to the song's success."
+                <span class="quote-source" style="color: #ffcc00"
+                  >- The Joy of Violent Movement (US)</span
+                >
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="col-text">
@@ -769,7 +924,7 @@
         const closeModal = document.getElementById("closeModal");
         const modalBody = document.getElementById("modalBody");
 
-       // 1. Define Tracks
+        // 1. Define Tracks
         const transmissions = [
           {
             type: "released",
@@ -890,9 +1045,9 @@
           releaseBadge.innerHTML = "";
           releaseBadge.appendChild(contentWrapper);
 
-          // FORCE REFLOW: This line forces the browser to acknowledge the 
+          // FORCE REFLOW: This line forces the browser to acknowledge the
           // initial 'hidden' state before we allow it to animate.
-          void contentWrapper.offsetWidth; 
+          void contentWrapper.offsetWidth;
 
           // Trigger Fade In
           contentWrapper.classList.remove("fading-out");
@@ -919,7 +1074,7 @@
         // Initialize and Start Rotation
         function scheduleNextSlide() {
           if (!releaseBadge) return;
-          
+
           // Get duration of the CURRENT slide before moving to next
           const slideDuration = transmissions[currentIndex].duration || 7000;
 
