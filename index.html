@@ -523,6 +523,7 @@
         color: #d0d0d0;
         border-left: 3px solid #444;
         padding-left: 15px;
+        vertical-align: middle;
       }
       .damage-quote.hit {
         border-color: #00d4ff;
@@ -539,6 +540,27 @@
         margin-top: 5px;
         text-transform: uppercase;
         letter-spacing: 1px;
+      }
+
+      @font-face {
+        font-family: "Twemoji Country Flags";
+        src: url("TwemojiCountryFlags.woff2") format("woff2");
+        unicode-range:
+          U+1F1E6-1F1FF, U+1F3F4, U+E0062-E007F; /* Only load for flag emojis */
+        font-display: swap;
+      }
+
+      .flag {
+        font-family:
+          "Twemoji Country Flags", "Segoe UI Emoji", "Apple Color Emoji",
+          sans-serif !important;
+        font-style: normal !important;
+        display: inline-block;
+        margin-left: 5px;
+        font-weight: normal;
+        font-size: 0.9rem;
+        vertical-align: middle;
+        text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
       }
 
       @media (max-width: 1400px) {
@@ -705,8 +727,8 @@
                 letter-spacing: 1px;
               "
             >
-              <span style="color: #00d4ff">PASSED: 6</span> &nbsp;|&nbsp;
-              <span style="color: #ffcc00">INCONCLUSIVE: 4</span> &nbsp;|&nbsp;
+              <span style="color: #00d4ff">PASSED: 7</span> &nbsp;|&nbsp;
+              <span style="color: #ffcc00">INCONCLUSIVE: 6</span> &nbsp;|&nbsp;
               <span
                 style="
                   color: #ff4444;
@@ -730,7 +752,8 @@
                 "Feels like New Order mixed with darker rock tones... So damn
                 atmospheric."
                 <span class="quote-source" style="color: #00d4ff"
-                  >- It's All Indie (UK)</span
+                  >- It's All Indie
+                  <span title="United Kingdom" class="flag">🇬🇧</span></span
                 >
               </div>
 
@@ -738,37 +761,50 @@
                 "Unique and radio-ready... melodic instrumentals were smooth and
                 clean."
                 <span class="quote-source" style="color: #00d4ff"
-                  >- Absolute E (Belgium)</span
+                  >- Absolute E
+                  <span title="Belgium" class="flag">🇧🇪</span></span
                 >
               </div>
 
               <div class="damage-quote hit">
-                "Great energy and a unique, cyberpunk vibe... synths full of
-                tension."
+                "Une ambiance... qui peut accrocher. Un arrangement de qualité
+                avec de belles colorations harmoniques."
                 <span class="quote-source" style="color: #00d4ff"
-                  >- wetherr (Poland)</span
+                  >- Auxois FM <span title="France" class="flag">🇫🇷</span></span
                 >
               </div>
 
               <div class="damage-quote hit">
-                "Captivating atmosphere... high-quality arrangement with
-                beautiful harmonic textures."
+                "Se démarque par son audace et sa cohérence artistique... une
+                urgence moderne."
                 <span class="quote-source" style="color: #00d4ff"
-                  >- Auxois FM (France)</span
+                  >- PLAY FM <span title="Spain" class="flag">🇪🇸</span
+                  ><span title="France" class="flag">🇫🇷</span></span
                 >
               </div>
 
               <div class="damage-quote hit">
                 "The chorus is a banger, I love the energy. Well done."
                 <span class="quote-source" style="color: #00d4ff"
-                  >- Balance la Sauce (France)</span
+                  >- Balance la Sauce
+                  <span title="France" class="flag">🇫🇷</span></span
+                >
+              </div>
+
+              <div class="damage-quote hit">
+                "Un sonido denso, profundo e incluso enigmático, como salido del
+                soundtrack de una película de suspenso de los 90s."
+                <span class="quote-source" style="color: #00d4ff"
+                  >- Pop Punkers
+                  <span title="Mexico" class="flag">🇲🇽</span></span
                 >
               </div>
 
               <div class="damage-quote hit">
                 "Killer song."
                 <span class="quote-source" style="color: #00d4ff"
-                  >- From The Strait (Canada)</span
+                  >- From The Strait
+                  <span title="Canada" class="flag">🇨🇦</span></span
                 >
               </div>
             </div>
@@ -782,7 +818,17 @@
                 "I found this really catchy... my wife even grooved a bit, which
                 she is allergic to fun."
                 <span class="quote-source" style="color: #ffcc00"
-                  >- Metal Institute of Thrashology (US)</span
+                  >- Metal Institute of Thrashology
+                  <span title="United States" class="flag">🇺🇸</span></span
+                >
+              </div>
+
+              <div class="damage-quote miss">
+                "La production est géniale, la composition et l'exécution hyper
+                efficaces."
+                <span class="quote-source" style="color: #ffcc00"
+                  >- Ici L'Onde
+                  <span title="France" class="flag">🇫🇷</span></span
                 >
               </div>
 
@@ -790,7 +836,8 @@
                 "Certified: Too dark and angry for our lighter, calmer
                 playlists."
                 <span class="quote-source" style="color: #ffcc00"
-                  >- Sonic Vortex (Spain)</span
+                  >- Sonic Vortex
+                  <span title="Spain" class="flag">🇪🇸</span></span
                 >
               </div>
 
@@ -798,7 +845,8 @@
                 "I like the clean sound but I think the track is a bit too
                 polished and dancy."
                 <span class="quote-source" style="color: #ffcc00"
-                  >- cold tunes for cold days (Germany)</span
+                  >- cold tunes for cold days
+                  <span title="Germany" class="flag">🇩🇪</span></span
                 >
               </div>
 
@@ -806,7 +854,16 @@
                 "Hooky, modern take on Devo... but the lyrics may be the biggest
                 detriment to the song's success."
                 <span class="quote-source" style="color: #ffcc00"
-                  >- The Joy of Violent Movement (US)</span
+                  >- The Joy of Violent Movement
+                  <span title="United States" class="flag">🇺🇸</span></span
+                >
+              </div>
+
+              <div class="damage-quote miss">
+                "Great energy and a unique, cyberpunk vibe... synths full of
+                tension."
+                <span class="quote-source" style="color: #ffcc00"
+                  >- wetherr <span title="Poland" class="flag">🇵🇱</span></span
                 >
               </div>
             </div>
